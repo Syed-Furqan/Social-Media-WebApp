@@ -1,0 +1,59 @@
+const router = require('express').Router()
+const User = require('../Models/User')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+const dotenv = require('dotenv')
+
+dotenv.config()
+
+router.post('/login', async (req, res) => {
+    const {email, password} = req.body
+
+    try {    
+        const foundUser = await User.findOne({email})
+
+        if(!foundUser) {
+            res.json({status: 404, message: "Invalid Credentials"})
+        } else {
+            const same = await bcrypt.compare(password, foundUser.password)
+
+            // Send Access Token
+            if(same) {
+                access_token = jwt.sign(foundUser._id.toJSON(), process.env.SECRET_KEY)
+                res.json({access_token, id: foundUser._id, name: foundUser.username, img: foundUser.profilePic})
+            } else {
+                res.json({status: 404, message: "Invalid Credentials"})
+            }
+        }
+    } catch (error) {
+        console.error(error)
+        res.json({status: 500, message: "Error From Server !!!"})
+    }
+})
+
+router.post('/register', async (req, res) => {
+    const {email, username, password} = req.body
+
+    try {
+        const foundUser = await User.findOne({$or: [{email}, {username}]})
+    
+        if(foundUser) {
+            res.json({status: 404, message: "User with given credentials already exists"})
+        } else {
+            const salt = await bcrypt.genSalt(10)
+            const hashedPassword = await bcrypt.hash(password, salt)
+            const user = await User.create({
+                username, email, password: hashedPassword
+            })
+            
+            // Send Access Token
+            access_token = jwt.sign(user._id.toJSON(), process.env.SECRET_KEY)
+            res.json({access_token, id: foundUser._id, name: user.username, img: foundUser.profilePic})
+        }
+    } catch (error) {
+        console.error(error)
+        res.json({status: 500, message: "Error From Server !!!"})
+    }
+})
+
+module.exports = router;

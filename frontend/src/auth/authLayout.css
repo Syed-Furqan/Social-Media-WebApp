@@ -1,0 +1,22 @@
+.authLayout {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100vh;
+}
+
+.authWrapper {
+    padding: 20px;
+    flex: 1
+}
+
+.sideImg {
+    flex: 1;
+    height: 100%;
+}
+
+.sideImg > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

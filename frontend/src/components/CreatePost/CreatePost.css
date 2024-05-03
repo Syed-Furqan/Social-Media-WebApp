@@ -1,0 +1,30 @@
+.createpost {
+    margin-bottom: 40px;
+    padding: 15px;
+}
+
+.inputWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.createpost > .previewImg {
+    width: 100%;
+    height: 250px;
+    margin: 20px 0;
+}
+
+.createpost > .previewImg > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.uploadImage {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
