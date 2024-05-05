@@ -1,18 +1,18 @@
 import './Message.css'
-import io from 'socket.io-client'
-import { useEffect } from 'react'
-
-const socket = io.connect('http://localhost:2000')
+import { useState } from 'react'
+import ConversationsList from '../../../components/ConversationsList/ConversationsList'
+import Chat from '../../../components/Chat/Chat'
 
 const Message = () => {
 
-    useEffect(() => {
-        
-    }, [])
+    const [currentChat, setCurrentChat] = useState(null)
 
     return (
-        <div>
-            This is the messages page.
+        <div className='message'>
+            <ConversationsList setCurrentChat={setCurrentChat} />
+            {!currentChat ? <div className='noConvoContainer'>Open a Conversation</div> :
+            <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} />
+            }
         </div>
     );
 }

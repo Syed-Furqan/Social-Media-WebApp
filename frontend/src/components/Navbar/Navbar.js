@@ -11,9 +11,11 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../Context/UserContext';
+import { useSocketContext } from '../../Context/SocketContext';
 
 const Navbar = () => {
     const { user, setContextUser } = useUserContext()
+    const { socket } = useSocketContext()
 
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -26,13 +28,16 @@ const Navbar = () => {
     };
 
     const logout = () => {
+        
         handleCloseUserMenu()
 
         // Show Modal
 
         // Logout
         localStorage.removeItem('user')
+        socket.disconnect()
         setContextUser({access_token: null, name: '', id: '', img: ''})
+        
     }
 
   return (

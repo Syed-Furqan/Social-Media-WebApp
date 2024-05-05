@@ -1,0 +1,13 @@
+.message {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 25px;
+    height: calc(100vh - 110px);
+    box-sizing: border-box;
+}
+
+.message .noConvoContainer {
+    width: 100%;
+    padding: 15px;
+}

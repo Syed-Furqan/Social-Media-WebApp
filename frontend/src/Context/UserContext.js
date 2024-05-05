@@ -6,8 +6,12 @@ const UserContext = createContext()
 export const useUserContext = () => useContext(UserContext)
 
 export const UserProvider = ({children}) => {
+    let initialState = {access_token: null, id: '', name: '', img: ''}
+    const userInLocalStorage = JSON.parse(localStorage.getItem('user'))
+    if(userInLocalStorage) 
+        initialState = userInLocalStorage
 
-    const [user, setUser] = useState({access_token: null, name: '', id: '', img: ''})
+    const [user, setUser] = useState(initialState)
 
     return (
         <UserContext.Provider value={{user, setContextUser: setUser}}>

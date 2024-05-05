@@ -1,10 +1,10 @@
 import './Home.css';
 import { useEffect, useState } from 'react'
-import Rightbar from '../../../components/Rightbar/Rightbar';
 import Timeline from '../../../components/Timeline/Timeline';
 import MyLoader from '../../../components/MyLoader';
 import CreatePost from '../../../components/CreatePost/CreatePost';
 import { useUserContext } from '../../../Context/UserContext';
+import Rightbar from '../../../components/Rightbar/Rightbar';
 
 const Home = () => {
 
@@ -35,7 +35,7 @@ const Home = () => {
             setLoading(false)
             setError({message: 'Error from Server', status: true})
         })
-    }, [])
+    }, [user.access_token])
 
     return (
         <div className='Home'>

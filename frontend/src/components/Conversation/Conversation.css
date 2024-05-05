@@ -1,0 +1,19 @@
+.conversation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 15px;
+    margin: 10px;
+    background-color: aliceblue;
+    border-radius: 4px;
+}
+
+.conversation:hover {
+    cursor: pointer;
+    background-color: rgb(222, 231, 239);
+    transition: 500ms;
+}
+
+.conversation .conversationInfo {
+    margin-left: 10px;
+}

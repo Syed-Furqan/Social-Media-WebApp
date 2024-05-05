@@ -1,0 +1,30 @@
+.userchat {
+    position: relative;
+    background-color: rgb(18, 168, 213);
+    color: white;
+    border-radius: 4px;
+    padding: 6px 12px;
+    padding-bottom: 25px;
+    margin-right: auto;
+    max-width: 300px;
+    min-width: 100px;
+    margin-bottom: 10px;
+}
+
+.userchat .timeAgo {
+    font-size: 12px;
+    color: rgb(224, 224, 224);
+    margin: 0;
+    position: absolute;
+    bottom: 3px;
+}
+
+.own {
+    background-color: rgb(112, 175, 175);
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.userchat .owntimeAgo {
+    right: 5px;
+}
