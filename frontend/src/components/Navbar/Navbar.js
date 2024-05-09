@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../Context/UserContext';
 import { useSocketContext } from '../../Context/SocketContext';
+import SearchUsers from '../SearchUsers/SearchUsers';
 
 const Navbar = () => {
     const { user, setContextUser } = useUserContext()
@@ -45,6 +46,7 @@ const Navbar = () => {
       <Container maxWidth="xl" sx={{height: '100%'}}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100%'}} >
           <Link to='/'><img src='/assets/images/logo.svg' alt='logo' style={{width: '140px'}}/></Link>
+          <SearchUsers />
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

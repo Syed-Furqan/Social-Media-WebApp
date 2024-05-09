@@ -47,11 +47,12 @@ const Login = () => {
 
     return (
         <div className='Login'>
-            <OutlinedInput type='email' placeholder='email'  onChange={e => setEmail(e.target.value)} value={email} />
-            <OutlinedInput type='password' placeholder='Password' variant='outlined' onChange={e => setPassWord(e.target.value)} value={password} />
+            <h1> Login </h1>
+            <OutlinedInput type='email' placeholder='email' style={{margin: '10px'}}  onChange={e => setEmail(e.target.value)} value={email} />
+            <OutlinedInput type='password' placeholder='Password' style={{margin: '10px'}} variant='outlined' onChange={e => setPassWord(e.target.value)} value={password} />
             <MyButton onClick={() => login()} disabled={loading} >
                 {loading ? <MyLoader /> : 'Login'}
-            </MyButton>
+            </MyButton> 
             {error.status && <p style={{color: 'red'}}>{error.message}</p>}
         </div>
     );

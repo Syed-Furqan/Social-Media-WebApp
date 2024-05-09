@@ -15,6 +15,7 @@ dotenv.config()
 const http = require('http')
 const server = http.createServer(app)
 const { Server } = require('socket.io')
+const User = require('./Models/User')
 
 mongoose.connect(process.env.MONGO_DB_URL)
     .then(() => console.log("Connected to MongoDB"))
@@ -28,26 +29,49 @@ const io = new Server(server, {
     }
 })
 
-const online_users = {}
+let online_users = {} // Mapping of users -> socket_ids
+let online_friends = {} // Mapping of users -> followings
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
     // Push User to online_users hashmap.
     const userId = socket.handshake.query.userId
     console.log(`User with socket ID: ${socket.id} and User ID: ${userId} connected`)
     online_users[userId] = socket.id
+
+    // Get User from DB.
+    const user = await User.findById(userId).select('following followers')
     
+    online_following = user.following.filter(following => following in online_users)
+    online_friends[userId] = online_following
+    io.to(socket.id).emit('getOnlineFollowing', {online_following})
+
+    // Send an event to online followers of this user.
+    user.followers.map(follower => {
+        if(follower in online_users) {
+            online_friends[follower] = [...online_friends[follower], userId]
+            io.to(online_users[follower]).emit('getOnlineFollowing', {online_following: online_friends[follower]})
+        }
+    })
+
     // Send message to specific user.
     socket.on('sendMessage', (data) => {
-        console.log(data)
         const recieverSID = online_users[data.reciever]
-        console.log(recieverSID)
         io.to(recieverSID).emit('recieveMessage', data)
     })
 
-    socket.on('disconnect', () => {
-        // Remove user from online_users hashmap
+    socket.on('disconnect', async () => {
+        // Remove user from online_users and online_friends hashmap
         console.log(`User with socket ID: ${socket.id} disconnected`)
         delete online_users[userId]
+        delete online_friends[userId]
+
+        // Send an event to all online followers of this user.
+        user.followers.map(follower => {
+            if(follower in online_users) {
+                online_friends[follower] = online_friends[follower].filter(friend => friend !== userId)
+                io.to(online_users[follower]).emit('getOnlineFollowing', {online_following: online_friends[follower]})
+            }
+        })
     })
 })
 

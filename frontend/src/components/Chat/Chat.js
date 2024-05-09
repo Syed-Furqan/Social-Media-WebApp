@@ -2,7 +2,7 @@ import './Chat.css'
 import { Paper, Avatar, IconButton, OutlinedInput} from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import CloseIcon from '@mui/icons-material/Close';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSocketContext } from '../../Context/SocketContext';
 import { useUserContext } from '../../Context/UserContext';
 import MyLoader from '../MyLoader';
@@ -16,6 +16,7 @@ const Chat = ({currentChat, setCurrentChat}) => {
     const [messageText, setMessageText] = useState('')
     const [messages, setMessages] = useState([])
     const [loading, setLoading] = useState(true)
+    const scrollChatRef = useRef()
 
     const sendMessage = () => {
         setLoading(true)
@@ -56,13 +57,9 @@ const Chat = ({currentChat, setCurrentChat}) => {
             socket.off("recieveMessage")
         }
     }, [conversationId])
-    
+
 
     useEffect(() => {
-
-        console.log("Making Api Request.")
-        console.log(conversationId)
-
         fetch(`http://localhost:2000/api/message/${conversationId}`, {
             method: 'GET',
             headers: {
@@ -78,6 +75,10 @@ const Chat = ({currentChat, setCurrentChat}) => {
         })
     }, [conversationId])
 
+    useEffect(() => {
+        scrollChatRef.current.scrollTop = scrollChatRef.current.scrollHeight
+    }, [messages])
+
     return (
         <Paper className="chat">
             <div className='chattopbar'>
@@ -92,11 +93,13 @@ const Chat = ({currentChat, setCurrentChat}) => {
                     <CloseIcon />
                 </IconButton>
             </div>
-            {loading ? <MyLoader /> :
-            <div className='currentchatmessages'>
-                {messages.map(message => <UserChat key={message._id} message={message} own={message.sender === user.id} />)}
+            <div className='currentchatmessages' ref={scrollChatRef}>
+                {loading ? <MyLoader /> :
+                    <>
+                    {messages.map(message => <UserChat key={message._id} message={message} own={message.sender === user.id} />)}
+                    </>
+                }
             </div>
-            }
             <div className='chatInput'>
                 <OutlinedInput endAdornment={<IconButton onClick={sendMessage}><SendIcon /></IconButton>} 
                     sx={{width: '100%', height: '100%', fontSize: '18px'}} 

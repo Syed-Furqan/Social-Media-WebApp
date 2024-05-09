@@ -10,7 +10,7 @@ root.render(
     <BrowserRouter>
       <UserProvider>
         <SocketProvider>
-          <App />
+         <App />
         </SocketProvider>
       </UserProvider>
     </BrowserRouter>

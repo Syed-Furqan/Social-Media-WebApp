@@ -6,8 +6,9 @@ import Register from './auth/forms/Register/Register';
 import AuthLayout from './auth/authLayout';
 import RootLayout from './root/rootLayout';
 import Profile from './root/pages/Profile/Profile';
-import { useUserContext } from './Context/UserContext';
+import About from './root/pages/About/About';
 import Message from './root/pages/Message/Message';
+import { useUserContext } from './Context/UserContext';
 
 function App() {  
 
@@ -19,6 +20,7 @@ function App() {
           <Route element={user.access_token ? <RootLayout /> : <Navigate to='/login' />}>
             <Route path="/" element={<Home />} />
             <Route path="/messages" element={<Message />} />
+            <Route path='/about' element={<About />} />
             <Route path='/profile/:id'>
               <Route index element={<Profile />} />
               <Route path='settings' element={<p>Settings</p>}/>

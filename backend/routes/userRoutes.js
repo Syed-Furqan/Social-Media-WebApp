@@ -21,6 +21,17 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+// Get a user where username starts with 'name'
+router.get('/getUsers/:name', async (req, res) => {
+    try {
+        const users = await User.find({username: { $regex : `^${req.params.name}`, $options: 'i'}}).select('username email profilePic')
+        res.json({users})
+    } catch (error) {
+        console.error(error)
+        res.json({status: 500, message: "Error from server"})
+    }
+})
+
 // Update a user.
 router.put('/:id', async (req, res) => {
     const user = req.body
@@ -128,6 +139,32 @@ router.put('/unfollow/:id', async (req, res) => {
             res.json({status: 500, message: "Error from server"})
         }
     }
+})
+
+// Get the followers of a user.
+router.get('/:userId/followers', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId)
+        const userfollowers = []
+        const followers = await Promise.all(user.followers.map(follower => User.findById(follower).select('username email profilePic')))
+        res.json({userfollowers: userfollowers.concat(...followers)})
+    } catch (error) {
+        console.error(error)
+        res.json({status: 500, message: "Error from server"})
+    }    
+})
+
+// Get the following of a user.
+router.get('/:userId/following', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId)
+        const userfollowings = []
+        const followings = await Promise.all(user.following.map(following => User.findById(following).select('username email profilePic')))
+        res.json({userfollowings: userfollowings.concat(...followings)})
+    } catch (error) {
+        console.error(error)
+        res.json({status: 500, message: "Error from server"})
+    }    
 })
 
 module.exports = router;

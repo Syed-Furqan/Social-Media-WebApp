@@ -10,6 +10,16 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from '../../Firebase/firebaseConfig';
 import { v4 } from 'uuid'
 
+const inputStyles = { 
+    ml: 1, 
+    flex: 1, 
+    width: '100%', 
+    background: 'rgb(238, 245, 251)', 
+    padding: '5px 15px', 
+    borderRadius: '16px',
+    marginLeft: '10px'
+}
+
 const CreatePost = () => {
 
     const { user } = useUserContext()
@@ -84,13 +94,20 @@ const CreatePost = () => {
         }
     }
 
+    const postShared = () => {
+        setPostImg(null)
+        setDesc(null)
+        setOpen(false)
+    }
+
     return (
         <>
             <Card className="createpost">
                 <div className='inputWrapper'>
-                    <Avatar sx={{ bgcolor: 'brown' }}>S</Avatar>
+                    {user.img ? <Avatar alt="Remy Sharp" src={user.img} sx={{width: '50px', height: '50px'}}/> : 
+                    <Avatar sx={{ bgcolor: 'brown' }}>{user.name[0]}</Avatar>}
                     <InputBase
-                        sx={{ ml: 1, flex: 1, width: '100%' }}
+                        sx={inputStyles}
                         placeholder="What's on your mind?"
                         onChange={e => setDesc(e.target.value)}
                         value={desc}
@@ -117,7 +134,7 @@ const CreatePost = () => {
             <MyModal open={open} close={() => setOpen(false)}>
                 <div style={{padding: '10px'}}>
                     <h3>{modalMessage}</h3>
-                    <MyButton sx={{width: '30px'}} variant='outlined' onClick={() => setOpen(false)}>Ok</MyButton>
+                    <MyButton sx={{width: '30px'}} variant='outlined' onClick={postShared}>Ok</MyButton>
                 </div>
             </MyModal>
         </>

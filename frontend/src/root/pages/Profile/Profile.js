@@ -15,6 +15,7 @@ const Profile = () => {
     const [profileUser, setProfileUser] = useState(null)
 
     useEffect(() => {
+        setLoading(true)
         fetch(`http://localhost:2000/api/user/${id}`, {
             method: 'GET', 
             headers: {

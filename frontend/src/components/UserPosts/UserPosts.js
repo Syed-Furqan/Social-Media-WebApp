@@ -9,6 +9,7 @@ const UserPosts = ({profileId, token}) => {
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
+        console.log(profileId)
         fetch(`http://localhost:2000/api/post/${profileId}/posts`, {
             method: 'GET',
             headers: {
@@ -16,6 +17,7 @@ const UserPosts = ({profileId, token}) => {
             }
         }).then(res => res.json())
         .then(data => {
+            console.log(data)
             setPosts(data.userposts)
             setLoading(false)
         }).catch(err => {

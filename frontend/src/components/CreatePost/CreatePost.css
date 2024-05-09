@@ -1,13 +1,15 @@
 .createpost {
     margin-bottom: 40px;
     padding: 15px;
+    box-shadow: none !important;
+    border-radius: 8px !important;
 }
 
 .inputWrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .createpost > .previewImg {

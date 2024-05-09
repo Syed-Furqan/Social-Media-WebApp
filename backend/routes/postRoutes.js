@@ -154,10 +154,13 @@ router.get('/:userId/posts', async (req, res) => {
     try {
         const user = await User.findById(req.params.userId)
         
-        const posts = await Promise.all(user.posts.map(postId => Post.findById(postId)))
-        const userposts = []
-
-        return res.json({userposts: userposts.concat(...posts)})
+        if(user.posts.length === 0) res.json({userposts: []})
+        else {
+            const posts = await Promise.all(user.posts.map(postId => Post.findById(postId)))
+            const userposts = []
+            res.json({userposts: userposts.concat(...posts)})
+        }
+        
     } catch (error) {
         console.error(error)
         res.json({status: 500, message: "Error from server"})

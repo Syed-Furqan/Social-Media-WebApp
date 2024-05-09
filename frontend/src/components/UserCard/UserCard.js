@@ -1,9 +1,11 @@
 import './UserCard.css'
-import { useState } from 'react';
-import { Paper } from '@mui/material'
+import { useState, useEffect } from 'react';
+import { Paper, IconButton, OutlinedInput } from '@mui/material'
 import MyButton from '../MyButton';
-import MessageIcon from '@mui/icons-material/Message';
+import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import SendIcon from '@mui/icons-material/Send';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { useUserContext } from '../../Context/UserContext';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
@@ -12,19 +14,31 @@ import { storage } from '../../Firebase/firebaseConfig';
 import { v4 } from 'uuid'
 import MyModal from '../MyModal';
 import MyLoader from '../MyLoader';
+import Friend from '../Friend/Friend';
+import { useNavigate } from 'react-router-dom';
 
 const UserCard = ({ profileUser }) => {
+
+    useEffect(() => {
+        setFollowing(profileUser.followers.includes(user.id))
+        setTotalFollowers(profileUser.followers.length)
+        setTotalFollowing(profileUser.following.length)
+    }, [profileUser])
 
     const { user, setContextUser } = useUserContext()
 
     const [profilePic, setProfilePic] = useState(null)
     const [open, setOpen] = useState(false)
+    const [openfriend, setOpenFriend] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [buttonLoading, setButtonLoading] = useState(false)
+    const [friends, setFriends] = useState({friendType: '', friends: []})
+    const [searchFriend, setSearchFriend] = useState('')
+    const [following, setFollowing] = useState(profileUser.followers.includes(user.id))
+    const [totalFollowers, setTotalFollowers] = useState(profileUser.followers.length)
+    const [totalFollowing, setTotalFollowing] = useState(profileUser.following.length)
 
-    const uploadProfilePic = () => {
-        console.log(profilePic)
-        setOpen(true)
-    }
+    const navigate = useNavigate()
 
     const uploadProfileImage = async () => {
         setLoading(true)
@@ -42,10 +56,12 @@ const UserCard = ({ profileUser }) => {
             window.localStorage.setItem('user', JSON.stringify({...user, img: data.profilePic}))
             setContextUser({...user, img: data.profilePic})
             setLoading(false)
+            setOpen(false)
         })
         .catch(err => {
             console.error(err)
             setLoading(false)
+            setOpen(false)
         })
     }
 
@@ -70,13 +86,67 @@ const UserCard = ({ profileUser }) => {
         e.target.value = ''
     }
 
+    const getFriends = (friendType) => {
+        setOpenFriend(true)
+        setLoading(true)
+        fetch(`http://localhost:2000/api/user/${profileUser._id}/${friendType}`, {
+            method: 'GET',
+            headers: {
+                "authorization": `Bearer ${user.access_token}`
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            friendType === 'followers' 
+                ? 
+                setFriends({friendType: 'Followers', friends: data.userfollowers}) 
+                : 
+                setFriends({friendType: 'Following', friends: data.userfollowings})
+            setLoading(false)
+        })
+        .catch(err => {
+            console.error(err)
+            setLoading(false)
+        })
+    }
+
+    const search = () => {
+        console.log(searchFriend)
+        setSearchFriend('')
+    }
+
+    const showFriendProfile = (id) => {
+        setOpenFriend(false)
+        navigate(`/profile/${id}`)
+    }
+
+    const takeAction = (action) => {
+        setButtonLoading(true)
+        fetch(`http://localhost:2000/api/user/${action}/${profileUser._id}`, {
+            method: 'PUT',
+            headers: {
+                "authorization": `Bearer ${user.access_token}`
+            },
+        })
+        .then(res => res.json())
+        .then(() => {
+            setFollowing(prev => !prev)
+            action === 'follow' ? setTotalFollowers(prev => prev + 1) : setTotalFollowers(prev => prev - 1)
+            setButtonLoading(false)
+        })
+        .catch(err => {
+            console.error(err)
+            setButtonLoading(false)
+        })
+    }
+
     return (
         <Paper elevation={1} className='usercard'>
             <div className='userprofile'>
                 <div className='profilepic'>
                     <img src={user.id === profileUser._id ? user.img : profileUser.profilePic} />
                     {user.id === profileUser._id && 
-                    <label htmlFor='uploadProfilePic' className='uploadIconLabel' onClick={uploadProfilePic} >
+                    <label htmlFor='uploadProfilePic' className='uploadIconLabel' onClick={() => setOpen(true)} >
                         <AddAPhotoIcon sx={{fontSize: 30}} />
                         <input id='uploadProfilePic' type='file' onChange={handleChange} style={{display: 'none'}} />       
                     </label>
@@ -90,12 +160,18 @@ const UserCard = ({ profileUser }) => {
             <p style={{marginBottom: '30px'}}>Honestly I am here for a good time...</p>
             {user.id !== profileUser._id &&
             <div style={{marginBottom: '30px'}}>
-                <MyButton startIcon={<MessageIcon />} color='error' sx={{marginRight: '15px'}}>Message</MyButton>
-                <MyButton startIcon={<AddIcon />}>Follow</MyButton>
+                {following ? <MyButton color='error' startIcon={<RemoveIcon />} onClick={() => takeAction('unfollow')} disabled={buttonLoading} endIcon={buttonLoading && <MyLoader size={10} />}>Remove</MyButton>
+                : 
+                <MyButton startIcon={<AddIcon />} onClick={() => takeAction('follow')} disabled={buttonLoading} endIcon={buttonLoading && <MyLoader size={10} />}>Follow</MyButton>
+                }
             </div>
             }
-            <div className='followWrapper'>Followers {profileUser.followers.length}</div>
-            <div className='followWrapper'>Following {profileUser.followers.length}</div>
+            <div className='followWrapper' onClick={() => {getFriends('followers')}}>
+                Followers <span>{totalFollowers}</span>
+            </div>
+            <div className='followWrapper' onClick={() => getFriends('following')}>
+                Following <span>{totalFollowing}</span>
+            </div>
             {profilePic &&
             <MyModal open={open} close={closeModal}>
                 <div className='uploadProfilePicModal'>
@@ -118,6 +194,37 @@ const UserCard = ({ profileUser }) => {
                 </div>
             </MyModal>
             }
+            <MyModal open={openfriend} close={() => setOpenFriend(false)}>
+                <div className='friendModal'>
+                    {loading ? <MyLoader /> :
+                        <>
+                        <div className='friendModalInfo'>
+                            <div>
+                                <span style={{fontSize: '18px', marginRight: '15px'}}>{friends.friendType}</span>
+                                <span style={{fontWeight: 'bold', fontSize: '20px'}}>{friends.friends.length}</span>
+                            </div>
+                            <IconButton aria-label="close" sx={{width: '40px', height: '40px'}} onClick={() => setOpenFriend(false)}>
+                                <CloseIcon />
+                            </IconButton>
+                        </div>
+                        <div className='searchFriendInput'>
+                            <OutlinedInput endAdornment={<IconButton onClick={search}><SendIcon /></IconButton>} 
+                                sx={{width: '100%', fontSize: '16px'}} 
+                                placeholder='Search'
+                                value={searchFriend}
+                                onChange={e => setSearchFriend(e.target.value)}
+                                onKeyDown={e => e.key === 'Enter' && search()}
+                            />  
+                        </div>
+                        <div className='friendsList'>
+                        {friends.friends.map(friend => (
+                            <Friend key={friend._id} friend={friend} showFriendProfile={() => showFriendProfile(friend._id)} />
+                        ))}
+                        </div>
+                        </>
+                    }
+                </div>
+            </MyModal>
         </Paper>
     );
 }

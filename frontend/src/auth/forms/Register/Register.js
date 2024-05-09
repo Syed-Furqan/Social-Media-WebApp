@@ -49,10 +49,11 @@ const Register = () => {
 
     return (
         <div className='Register'>
-            <OutlinedInput placeholder='email' onChange={e => setEmail(e.target.value)} value={email} />
-            <OutlinedInput placeholder='Username' onChange={e => setUsername(e.target.value)} value={username} />
-            <OutlinedInput placeholder='Password' onChange={e => setPassWord(e.target.value)} value={password} />
-            <MyButton onClick={() => register()} disabled={loading} >
+            <h1>Register</h1>
+            <OutlinedInput placeholder='email' style={{margin: '10px'}}  onChange={e => setEmail(e.target.value)} value={email} />
+            <OutlinedInput placeholder='Username' style={{margin: '10px'}}  onChange={e => setUsername(e.target.value)} value={username} />
+            <OutlinedInput placeholder='Password' style={{margin: '10px'}}  onChange={e => setPassWord(e.target.value)} value={password} />
+            <MyButton  style={{margin: '10px'}}  onClick={() => register()} disabled={loading} >
                 {loading ? <MyLoader /> : 'Register'}
             </MyButton>
             {error.status && <p style={{color: 'red'}}>{error.message}</p>}

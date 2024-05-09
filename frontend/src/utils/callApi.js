@@ -1,7 +1,15 @@
-const callApi = async (URL, params) => {
+const callApi = async (URL, token) => {
     try {
-        const res = await fetch(URL, {...params})
-        return res.json()
+        console.log(URL)
+        const res = await fetch(URL, {
+            method: 'GET',
+            headers: {
+                "authorization": `Bearer ${token}`
+            }
+        })
+        const data = await res.json()
+        console.log(data)
+        return data
     } catch (error) {
         throw new Error(error)
     }

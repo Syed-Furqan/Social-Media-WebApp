@@ -69,6 +69,12 @@
     transition: 400ms;
 }
 
+.usercard .followWrapper span{
+    font-weight: bold;
+    margin-left: 10px;
+    font-size: 20px;
+}
+
 .modalProfileImg {
     width: 200px;
     height: 200px;
@@ -88,4 +94,28 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.friendModal {
+    padding: 20px;
+}
+
+.friendModal .friendModalInfo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+
+.friendModal .searchFriendInput {
+    padding: 0 10px;
+}
+
+.friendModal .friendsList {
+    height: 300px;
+    overflow-y: scroll;
+    padding: 10px;
+    margin-top: 15px;
 }

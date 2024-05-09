@@ -3,7 +3,7 @@
     flex-direction: row;
     width: 100%;
     padding: 25px;
-    height: calc(100vh - 110px);
+    height: calc(100vh - 80px);
     font-family: "Nunito", sans-serif;
     box-sizing: border-box;
 }

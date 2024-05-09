@@ -7,6 +7,7 @@ import MyButton from '../MyButton';
 import { useEffect, useState } from 'react';
 import MyLoader from '../MyLoader';
 import { useUserContext } from '../../Context/UserContext';
+import { dateAgo } from '../../utils/time';
 
 const Post = ({post}) => {
 
@@ -60,37 +61,39 @@ const Post = ({post}) => {
         <Card className='Post'>
             <CardHeader
                 avatar={
-                <Avatar sx={{ bgcolor: 'green' }} aria-label="postUserImg">
-                    {postUser.username[0]}
-                </Avatar>
+                postUser.profilePic ? <Avatar alt="Remy Sharp" src={postUser.profilePic} sx={{width: '50px', height: '50px'}}/> : 
+                <Avatar sx={{ bgcolor: 'brown' }}>{postUser.username[0]}</Avatar>
                 }
                 action={
+                postUser._id === user.id &&
                 <IconButton aria-label="settings">
                     <MoreVertIcon />
                 </IconButton>
                 }
-                title={postUser.username}
-                subheader={post.createdAt}
+                title={<p style={{fontWeight: 'bold', fontSize: '18px', margin: '0'}}>{postUser.username}</p>}
+                subheader={dateAgo(Date.parse(post.createdAt))}
             />
-            <div>
+            <div style={{padding: '0 16px'}}>
                 <CardMedia
                     component="img"
                     height="300"
-                    image={post?.img}
+                    image={post.img}
                     alt="Paella dish"
+                    sx={{borderRadius: '4px'}}
                 />
             </div>
             <CardContent>
                 {post.desc}
             </CardContent>
             <CardActions className='cardactions'>
-                <IconButton aria-label="like" style={{display: post.userId === user.id ? 'none' : 'block'}}
+                <IconButton aria-label="like" 
+                    style={{display: post.userId === user.id ? 'none' : 'block', width: '40px', height: '40px'}}
                     onClick={likeUnlikePost}
                     disabled={liking}
                 >
-                    <FavoriteIcon sx={{color: isLiked ? 'red' : 'gray'}} />
+                    <FavoriteIcon sx={{color: isLiked ? 'red' : 'gray', width: '100%', height: '100%'}} />
                 </IconButton>
-                <div style={{marginRight: '15px'}}>{totalLikes} likes</div>
+                <div style={{marginRight: '25px', marginLeft: '0'}}>{totalLikes}</div>
                 <MyButton variant='outlined' startIcon={<CommentIcon />}>Comments</MyButton>
             </CardActions>
         </Card>}

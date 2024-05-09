@@ -9,6 +9,7 @@ export const useSocketContext = () => useContext(SocketContext)
 export const SocketProvider = ({children}) => {
     const [socket, setSocket] = useState(null)
     const { user } = useUserContext()
+    const [onlineFollowing, setOnlineFollowing] = useState([])
 
     useEffect(() => {
         if(user.access_token) {
@@ -18,12 +19,16 @@ export const SocketProvider = ({children}) => {
                 }
             });
             setSocket(socket)
+
+            socket.on('getOnlineFollowing', data => {
+                setOnlineFollowing(data.online_following)
+            })
         }
     }, [user.access_token])
 
 
     return (
-        <SocketContext.Provider value={{socket, setSocketContext: setSocket}}>
+        <SocketContext.Provider value={{socket, setSocketContext: setSocket, onlineFollowing}}>
             {children}
         </SocketContext.Provider>
     );
