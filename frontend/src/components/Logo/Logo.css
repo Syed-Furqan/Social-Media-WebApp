@@ -1,0 +1,10 @@
+.logo {
+    font-size: 30px;
+    font-family: "Pacifico", cursive;
+    width: 100%;
+    text-align: center;
+    background: #00677a;
+    color: white;
+    padding: 8px 0;
+    border-radius: 8px 8px 0 0;
+}

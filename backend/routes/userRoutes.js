@@ -6,6 +6,17 @@ const router = require('express').Router()
 
 router.use(authenticate)
 
+// Get most popular users.
+router.get('/mostpopular', async (req, res) => {
+    try {
+        const popular = await User.aggregate().addFields({'length': {'$size': '$followers'}}).sort({'length': -1}).limit(5)
+        res.json({popular: popular.map(item => ({_id: item._id, username: item.username, profilePic: item.profilePic, length: item.length}))})
+    } catch (error) {
+        console.error(error)
+        res.json({status: 500, message: "Error from server"})
+    }
+})
+
 // Get a user.
 router.get('/:id', async (req, res) => {
     try {
@@ -161,6 +172,19 @@ router.get('/:userId/following', async (req, res) => {
         const userfollowings = []
         const followings = await Promise.all(user.following.map(following => User.findById(following).select('username email profilePic')))
         res.json({userfollowings: userfollowings.concat(...followings)})
+    } catch (error) {
+        console.error(error)
+        res.json({status: 500, message: "Error from server"})
+    }    
+})
+
+// Get the online following of a user.
+router.post('/:userId/followingOnline', async (req, res) => {
+    const onlineFollowing = req.body.onlineFollowing
+    try {
+        const onlinefollowings = []
+        const followings = await Promise.all(onlineFollowing.map(following => User.findById(following).select('username profilePic')))
+        res.json({onlinefollowings: onlinefollowings.concat(...followings)})
     } catch (error) {
         console.error(error)
         res.json({status: 500, message: "Error from server"})

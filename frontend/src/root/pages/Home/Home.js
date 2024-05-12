@@ -5,6 +5,7 @@ import MyLoader from '../../../components/MyLoader';
 import CreatePost from '../../../components/CreatePost/CreatePost';
 import { useUserContext } from '../../../Context/UserContext';
 import Rightbar from '../../../components/Rightbar/Rightbar';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Home = () => {
 
@@ -13,10 +14,13 @@ const Home = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState({message: '', status: false})
 
+    const [page, setPage] = useState(0)
+    const [hasMore, setHasMore] = useState(true)
+
     const [timelinePosts, settimelinePosts] = useState([])
 
-    useEffect(() => {
-        fetch('http://localhost:2000/api/post/timeline', {
+    const getMorePosts = () => {
+        fetch(`http://localhost:2000/api/post/timeline?page=${page}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -27,25 +31,45 @@ const Home = () => {
             if(data?.status === 500) 
                 setError({message: data.message, status: true})
             else {
-                settimelinePosts(data.timelinePosts)
+                if(data.timelinePosts.length === 0) {
+                    setHasMore(false)
+                } else {
+                    settimelinePosts(prev => [...prev, ...data.timelinePosts])
+                    setPage(prev => prev + 1)
+                }
+                
             }
+            console.log(data)
             setLoading(false)
         })
         .catch(err => {
             setLoading(false)
             setError({message: 'Error from Server', status: true})
         })
+    }
+
+    useEffect(() => {
+        getMorePosts()
     }, [user.access_token])
 
     return (
         <div className='Home'>
-            <div className='timelineWrapper'>
+            <div id='timelineWrapper'>
                 {loading ? <MyLoader size={50} /> : 
                 <>
                     <CreatePost />
                     {error.status ? <p>{error.message}</p> : 
-                        timelinePosts.length !== 0 ? <Timeline timelinePosts={timelinePosts} /> : <p>No Timeline Posts</p>
+                        timelinePosts.length === 0 && <p>No Timeline Posts</p>
                     }
+                    <InfiniteScroll 
+                        dataLength={timelinePosts.length} 
+                        next={getMorePosts} 
+                        hasMore={hasMore} 
+                        loader={<MyLoader />}
+                        scrollableTarget='timelineWrapper'
+                    >
+                        <Timeline timelinePosts={timelinePosts} />
+                    </InfiniteScroll>
                 </>
                 }
             </div>

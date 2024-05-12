@@ -48,7 +48,7 @@ io.on('connection', async (socket) => {
     // Send an event to online followers of this user.
     user.followers.map(follower => {
         if(follower in online_users) {
-            online_friends[follower] = [...online_friends[follower], userId]
+            online_friends[follower] = [userId, ...(online_friends[follower])]
             io.to(online_users[follower]).emit('getOnlineFollowing', {online_following: online_friends[follower]})
         }
     })
@@ -73,6 +73,9 @@ io.on('connection', async (socket) => {
             }
         })
     })
+
+    console.log(online_users)
+    console.log(online_friends)
 })
 
 

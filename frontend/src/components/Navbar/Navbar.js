@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { useUserContext } from '../../Context/UserContext';
 import { useSocketContext } from '../../Context/SocketContext';
 import SearchUsers from '../SearchUsers/SearchUsers';
+import { googleLogout } from '@react-oauth/google';
 
 const Navbar = () => {
     const { user, setContextUser } = useUserContext()
@@ -32,17 +33,15 @@ const Navbar = () => {
         
         handleCloseUserMenu()
 
-        // Show Modal
-
         // Logout
         localStorage.removeItem('user')
         socket.disconnect()
+        googleLogout()
         setContextUser({access_token: null, name: '', id: '', img: ''})
-        
     }
 
   return (
-    <AppBar position="static" sx={{height: '60px'}}>
+    <AppBar position="static" sx={{height: '70px', boxShadow: 'none !important'}}>
       <Container maxWidth="xl" sx={{height: '100%'}}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100%'}} >
           <Link to='/'><img src='/assets/images/logo.svg' alt='logo' style={{width: '140px'}}/></Link>

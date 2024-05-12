@@ -87,11 +87,11 @@ const Post = ({post}) => {
             </CardContent>
             <CardActions className='cardactions'>
                 <IconButton aria-label="like" 
-                    style={{display: post.userId === user.id ? 'none' : 'block', width: '40px', height: '40px'}}
+                    style={{width: '40px', height: '40px'}}
                     onClick={likeUnlikePost}
-                    disabled={liking}
+                    disabled={liking || post.userId === user.id}
                 >
-                    <FavoriteIcon sx={{color: isLiked ? 'red' : 'gray', width: '100%', height: '100%'}} />
+                    <FavoriteIcon sx={{color: isLiked || post.userId === user.id ? 'red' : 'gray', width: '100%', height: '100%'}} />
                 </IconButton>
                 <div style={{marginRight: '25px', marginLeft: '0'}}>{totalLikes}</div>
                 <MyButton variant='outlined' startIcon={<CommentIcon />}>Comments</MyButton>

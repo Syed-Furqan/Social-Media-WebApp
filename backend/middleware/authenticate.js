@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 
 dotenv.config()
 
-const authenticate = (req, res, next) => {
+const authenticate = async (req, res, next) => {
     const bearer_token = req.headers.authorization
     if(bearer_token) {
         const access_token = bearer_token.split(' ')[1]

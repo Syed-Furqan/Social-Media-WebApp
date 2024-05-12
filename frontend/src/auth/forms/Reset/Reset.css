@@ -1,0 +1,25 @@
+.resetEmail {
+    width: 320px;
+    height: 250px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.resetBtn {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.resetBtn > button {
+    background-color: #007463 !important;
+    padding: 8px 0 !important;
+}
+
+.backtologin {
+    color: rgb(0, 118, 181);
+}
+
+.backtologin:hover {
+    cursor: pointer;
+}

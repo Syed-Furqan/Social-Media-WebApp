@@ -3,6 +3,7 @@ const User = require('../Models/User')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const dotenv = require('dotenv')
+const transporter = require('../utils/mail')
 
 dotenv.config()
 
@@ -53,6 +54,96 @@ router.post('/register', async (req, res) => {
     } catch (error) {
         console.error(error)
         res.json({status: 500, message: "Error From Server !!!"})
+    }
+})
+
+router.post('/oauthgoogle', async (req, res) => {
+    const { id, email, picture, name } = req.body
+    
+    try {
+        const founduser = await User.findOne({email})
+        console.log(founduser)
+        if(!founduser) {
+            // Register this user in the DB.
+            const user = await User.create({
+                username: name,
+                email,
+                profilePic: picture,
+                GoogleUserId: id
+            })
+            access_token = jwt.sign(user._id.toJSON(), process.env.SECRET_KEY)
+            res.json({access_token, id: user._id, name: user.username, img: user.profilePic})
+        } else {
+            if(founduser.GoogleUserId) {
+                access_token = jwt.sign(founduser._id.toJSON(), process.env.SECRET_KEY)
+                res.json({access_token, id: founduser._id, name: founduser.username, img: founduser.profilePic})
+            } else {
+                res.json({status: 404, message: "You have already created an account with this email"})
+            }
+        }
+        
+    } catch (error) {
+        console.error(error)
+        res.json({status: 500, message: "Error From Server !!!"})        
+    }
+})
+
+router.post('/resetPassword', async (req, res) => {
+    const { email } = req.body
+
+    const foundUser = await User.findOne({email})
+
+    if(!foundUser) {
+        res.json({status: 404, message: "Email not registered."})
+    } else {
+        const access_token = jwt.sign(foundUser._id.toJSON(), process.env.SECRET_KEY)
+
+        // Create Link
+        const resetLink = `http://localhost:3000/resetPassword/${access_token}`
+        // Send this link via mail
+        const mailOptions = {
+            from: process.env.EMAIL,
+            to: email,
+            subject: 'Password Reset ....',
+            text: resetLink
+        }
+        transporter.sendMail(mailOptions, (err, info) => {
+            if(err) {
+                console.log(err)
+                res.json({status: 500, message: "Error sending email"})
+            }
+            else res.json({message: 'Reset Link Sent to Email'})
+        })
+    }   
+})
+
+router.post('/checkresetlink', async (req, res) => {
+    const { token } = req.body
+    try {
+        const foundUser = jwt.verify(token, process.env.SECRET_KEY)
+        res.json({id: foundUser})
+    } catch (error) {
+        res.json({status: 404, message: "Link not valid"})
+    }
+})
+
+router.post('/resetPassword/:id', async (req, res) => {
+    
+    const { password } = req.body
+    const foundUser = await User.findById(req.params.id)
+
+    if(!foundUser) {
+        res.json({message: 'Error from server', status: 404})
+    } else {
+        if(foundUser.GoogleUserId) 
+            res.json({message: 'This account is authenticated via google. Cannot reset its password', status: 404})
+        else {
+            const salt = await bcrypt.genSalt(10)
+            const hashedPassword = await bcrypt.hash(password, salt)
+            foundUser.password = hashedPassword
+            await foundUser.save()
+            res.json({message: "Password changed successfully"})
+        }
     }
 })
 

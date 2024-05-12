@@ -96,7 +96,7 @@ const CreatePost = () => {
 
     const postShared = () => {
         setPostImg(null)
-        setDesc(null)
+        setDesc('')
         setOpen(false)
     }
 
@@ -104,7 +104,7 @@ const CreatePost = () => {
         <>
             <Card className="createpost">
                 <div className='inputWrapper'>
-                    {user.img ? <Avatar alt="Remy Sharp" src={user.img} sx={{width: '50px', height: '50px'}}/> : 
+                    {user.img ? <Avatar alt="Remy Sharp" src={user.img} sx={{width: '60px', height: '60px'}}/> : 
                     <Avatar sx={{ bgcolor: 'brown' }}>{user.name[0]}</Avatar>}
                     <InputBase
                         sx={inputStyles}

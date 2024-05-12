@@ -3,20 +3,19 @@
     flex-direction: row;
     align-items: center;
     height: 100vh;
+    box-sizing: border-box;
+    position: relative;
+    background-image: url('../../public/assets/images/bg5.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .authWrapper {
-    padding: 20px;
-    flex: 1
-}
-
-.sideImg {
-    flex: 1;
-    height: 100%;
-}
-
-.sideImg > img {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
-    object-fit: cover;
 }

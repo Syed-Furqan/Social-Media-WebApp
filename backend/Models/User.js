@@ -15,7 +15,6 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
     },
     profilePic: {
         type: String,
@@ -36,6 +35,10 @@ const userSchema = new mongoose.Schema({
     isAdmin: {
         type: Boolean,
         default: false
+    },
+    GoogleUserId: {
+        type: String,
+        default: null
     }
 })
 

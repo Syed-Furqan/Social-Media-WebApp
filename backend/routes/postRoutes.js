@@ -6,8 +6,26 @@ const router = require('express').Router()
 
 router.use(authenticate)
 
-// Get timeline Posts.
+// // Get timeline Posts.
+// router.get('/timeline', async (req, res) => {
+//     try {
+//         const user = await User.findById(req.logged_user)
+//         const following = user.following
+    
+//         const posts = await Promise.all(following.map(f_id => (
+//             Post.find({userId: f_id})
+//         )))
+//         const timelinePosts = []
+//         res.json({timelinePosts: timelinePosts.concat(...posts)})
+//     } catch (error) {
+//         console.error(error)
+//         res.json({status: 500, message: "Unable to retrieve Timeline Posts."})
+//     }
+// })
+
 router.get('/timeline', async (req, res) => {
+    const page = req.query.page
+    const pageLimit = 4
     try {
         const user = await User.findById(req.logged_user)
         const following = user.following
@@ -15,11 +33,16 @@ router.get('/timeline', async (req, res) => {
         const posts = await Promise.all(following.map(f_id => (
             Post.find({userId: f_id})
         )))
-        const timelinePosts = []
-        res.json({timelinePosts: timelinePosts.concat(...posts)})
+        const timelinePosts = [].concat(...posts)
+
+        const length = timelinePosts.length
+        const x = page * pageLimit
+        const limit = (x + pageLimit) > length ? length - x : pageLimit
+
+        res.json({timelinePosts: timelinePosts.sort((a, b) => b.createdAt - a.createdAt).slice(x, x + limit)})        
     } catch (error) {
         console.error(error)
-        res.json({status: 500, message: "Unable to retrieve Timeline Posts."})
+        res.json({status: 500, message: "Unable to retrieve Timeline Posts."})        
     }
 })
 

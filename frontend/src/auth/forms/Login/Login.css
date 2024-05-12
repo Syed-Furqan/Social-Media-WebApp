@@ -1,5 +1,69 @@
+.loginWrapper {
+    width: 380px;
+    height: 570px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+}
+
 .Login {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 25px;
+}
+
+.loginTitle {
+    margin: 0;
+    margin: 20px 0;
+}
+
+.authBtn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.googleBtn, .loginBtn {
+    width: 100%;
+    border-radius: 4px;
+}
+
+.loginBtn {
+    background-color: #007463 !important;
+    padding: 8px 0 !important;
+}
+
+.loginBtn:hover {
+    background-color: black;
+}
+
+.googleBtn {
+    color: black !important;
+    background-color: white !important;
+}
+
+.googleBtn:hover {
+    background-color: white;
+}
+
+.alreadyAccount {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.forgotpasslink {
+    margin: 0;
+    margin-bottom: 15px;
+    font-size: 15px;
+    width: 100%;
+}
+
+.alreadyAccount .signuplink, .forgotpasslink {
+    color: rgb(0, 118, 181);
+}
+
+.alreadyAccount .signuplink:hover, .forgotpasslink:hover {
+    cursor: pointer;
 }

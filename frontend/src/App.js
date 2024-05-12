@@ -8,7 +8,10 @@ import RootLayout from './root/rootLayout';
 import Profile from './root/pages/Profile/Profile';
 import About from './root/pages/About/About';
 import Message from './root/pages/Message/Message';
+import NewPassword from './auth/forms/NewPassword/NewPassword';
+import Reset from './auth/forms/Reset/Reset';
 import { useUserContext } from './Context/UserContext';
+
 
 function App() {  
 
@@ -30,6 +33,8 @@ function App() {
           <Route element={!user.access_token ? <AuthLayout /> : <Navigate to='/'/>}>
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/resetPassword' element={<Reset />} />
+            <Route path='resetPassword/:token' element={<NewPassword />} />
           </Route>
 
           <Route path='*' element={<p>Page Not Found!!!</p>} />
