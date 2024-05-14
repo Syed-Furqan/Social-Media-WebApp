@@ -1,0 +1,9 @@
+.appbardark {
+    background-color: rgb(34, 34, 34) !important;
+}
+
+.navbarrightIcons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

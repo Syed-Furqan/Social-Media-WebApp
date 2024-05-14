@@ -7,6 +7,8 @@ const transporter = require('../utils/mail')
 
 dotenv.config()
 
+const userId_uuid = {}
+
 router.post('/login', async (req, res) => {
     const {email, password} = req.body
 
@@ -62,7 +64,6 @@ router.post('/oauthgoogle', async (req, res) => {
     
     try {
         const founduser = await User.findOne({email})
-        console.log(founduser)
         if(!founduser) {
             // Register this user in the DB.
             const user = await User.create({
@@ -96,10 +97,11 @@ router.post('/resetPassword', async (req, res) => {
     if(!foundUser) {
         res.json({status: 404, message: "Email not registered."})
     } else {
-        const access_token = jwt.sign(foundUser._id.toJSON(), process.env.SECRET_KEY)
-
         // Create Link
-        const resetLink = `http://localhost:3000/resetPassword/${access_token}`
+        const uuid = crypto.randomUUID()
+        const token = jwt.sign({userId: foundUser._id, uuid}, process.env.SECRET_KEY)
+        const resetLink = `http://localhost:3000/resetPassword/${token}`
+
         // Send this link via mail
         const mailOptions = {
             from: process.env.EMAIL,
@@ -112,7 +114,10 @@ router.post('/resetPassword', async (req, res) => {
                 console.log(err)
                 res.json({status: 500, message: "Error sending email"})
             }
-            else res.json({message: 'Reset Link Sent to Email'})
+            else {
+                userId_uuid[foundUser._id] = uuid
+                res.json({message: 'Reset Link Sent to Email'})
+            }
         })
     }   
 })
@@ -120,10 +125,15 @@ router.post('/resetPassword', async (req, res) => {
 router.post('/checkresetlink', async (req, res) => {
     const { token } = req.body
     try {
-        const foundUser = jwt.verify(token, process.env.SECRET_KEY)
-        res.json({id: foundUser})
+        const { userId, uuid } = jwt.verify(token, process.env.SECRET_KEY)
+        if(userId_uuid[userId]) {
+            delete userId_uuid[userId]
+            res.json({id: userId})
+        } else {
+            res.json({status: 404, message: "Link expired!"})
+        }
     } catch (error) {
-        res.json({status: 404, message: "Link not valid"})
+        res.json({status: 404, message: "Link not valid!"})
     }
 })
 

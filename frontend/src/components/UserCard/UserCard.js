@@ -1,6 +1,6 @@
 import './UserCard.css'
 import { useState, useEffect } from 'react';
-import { Paper, IconButton, OutlinedInput } from '@mui/material'
+import { Paper, IconButton, InputBase } from '@mui/material'
 import MyButton from '../MyButton';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
@@ -16,6 +16,7 @@ import MyModal from '../MyModal';
 import MyLoader from '../MyLoader';
 import Friend from '../Friend/Friend';
 import { useNavigate } from 'react-router-dom';
+import { useThemeContext } from '../../Context/ThemeContext';
 
 const UserCard = ({ profileUser }) => {
 
@@ -26,6 +27,7 @@ const UserCard = ({ profileUser }) => {
     }, [profileUser])
 
     const { user, setContextUser } = useUserContext()
+    const { dark } = useThemeContext()
 
     const [profilePic, setProfilePic] = useState(null)
     const [open, setOpen] = useState(false)
@@ -141,12 +143,12 @@ const UserCard = ({ profileUser }) => {
     }
 
     return (
-        <Paper elevation={1} className='usercard'>
+        <Paper elevation={1} className={`usercard ${dark && 'usercarddark'}`}>
             <div className='userprofile'>
                 <div className='profilepic'>
                     <img src={user.id === profileUser._id ? user.img : profileUser.profilePic} />
                     {user.id === profileUser._id && 
-                    <label htmlFor='uploadProfilePic' className='uploadIconLabel' onClick={() => setOpen(true)} >
+                    <label htmlFor='uploadProfilePic' className={`uploadIconLabel ${dark && 'uploadIconLabeldark'}`} onClick={() => setOpen(true)} >
                         <AddAPhotoIcon sx={{fontSize: 30}} />
                         <input id='uploadProfilePic' type='file' onChange={handleChange} style={{display: 'none'}} />       
                     </label>
@@ -166,10 +168,10 @@ const UserCard = ({ profileUser }) => {
                 }
             </div>
             }
-            <div className='followWrapper' onClick={() => {getFriends('followers')}}>
+            <div className={`followWrapper ${dark && 'followWrapperdark'}`} onClick={() => {getFriends('followers')}}>
                 Followers <span>{totalFollowers}</span>
             </div>
-            <div className='followWrapper' onClick={() => getFriends('following')}>
+            <div className={`followWrapper ${dark && 'followWrapperdark'}`} onClick={() => getFriends('following')}>
                 Following <span>{totalFollowing}</span>
             </div>
             {profilePic &&
@@ -195,7 +197,7 @@ const UserCard = ({ profileUser }) => {
             </MyModal>
             }
             <MyModal open={openfriend} close={() => setOpenFriend(false)}>
-                <div className='friendModal'>
+                <div className={`friendModal ${dark && 'friendModaldark'}`}>
                     {loading ? <MyLoader /> :
                         <>
                         <div className='friendModalInfo'>
@@ -203,12 +205,12 @@ const UserCard = ({ profileUser }) => {
                                 <span style={{fontSize: '18px', marginRight: '15px'}}>{friends.friendType}</span>
                                 <span style={{fontWeight: 'bold', fontSize: '20px'}}>{friends.friends.length}</span>
                             </div>
-                            <IconButton aria-label="close" sx={{width: '40px', height: '40px'}} onClick={() => setOpenFriend(false)}>
+                            <IconButton aria-label="close" sx={{width: '40px', height: '40px'}} className={dark && 'closeIcondark'} onClick={() => setOpenFriend(false)}>
                                 <CloseIcon />
                             </IconButton>
                         </div>
-                        <div className='searchFriendInput'>
-                            <OutlinedInput endAdornment={<IconButton onClick={search}><SendIcon /></IconButton>} 
+                        <div className={`searchFriendInput ${dark && 'searchFriendInputdark'}`}>
+                            <InputBase endAdornment={<IconButton onClick={search} className={dark && 'sendIcondark'}><SendIcon /></IconButton>} 
                                 sx={{width: '100%', fontSize: '16px'}} 
                                 placeholder='Search'
                                 value={searchFriend}

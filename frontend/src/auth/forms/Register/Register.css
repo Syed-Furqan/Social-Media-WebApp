@@ -15,6 +15,7 @@
 .registerTitle {
     margin: 0;
     margin: 20px 0;
+    color: black;
 }
 
 .authInputWrapper {

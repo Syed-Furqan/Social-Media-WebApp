@@ -9,6 +9,10 @@
     box-sizing: border-box;
 }
 
+.rightbardark {
+    background-color: black;
+}
+
 .rightbar .activeFriends {
     height: 300px;
     margin-bottom: 20px;

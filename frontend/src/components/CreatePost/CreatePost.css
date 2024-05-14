@@ -5,6 +5,10 @@
     border-radius: 8px !important;
 }
 
+.createpostdark {
+    background-color: black !important;
+}
+
 .inputWrapper {
     display: flex;
     flex-direction: row;

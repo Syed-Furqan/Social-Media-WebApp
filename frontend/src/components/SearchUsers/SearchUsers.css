@@ -9,9 +9,13 @@
     position: relative;
 }
 
+.searchUsersdark {
+    background-color: rgb(78, 78, 78);
+}
+
 .searchUsers .searchInput {
-    width: 90%;
-    height: 100%;
+    width: 90% !important;
+    height: 100% !important;
     border-radius: 0;
     outline: none;
     border: none;
@@ -19,6 +23,15 @@
     padding: 0 10px;
     padding-left: 2px;
     border-radius: 4px;
+}
+
+.searchInputdark {
+    background-color: rgb(78, 78, 78);
+    color: rgb(200, 200, 200);
+}
+
+input::placeholder {
+    color: rgb(156, 156, 156);
 }
 
 .searchUsers .clearSearchIcon, .searchIcon{
@@ -41,6 +54,10 @@
     background: rgb(242, 242, 242);
 }
 
+.searchUsersdark .clearSearchIcondark:hover {
+    background: rgb(100, 100, 100);
+}
+
 .searchUsers .foundUsersContainer {
     z-index: 9999;
     position: absolute;
@@ -53,4 +70,8 @@
     padding: 10px;
     box-sizing: border-box;
     overflow-y: scroll;
+}
+
+.searchUsersdark .foundUsersContainerdark {
+    background: rgb(41, 41, 41);
 }

@@ -6,6 +6,7 @@ import { useState } from 'react';
 import MyModal from '../MyModal';
 import MyLoader from '../MyLoader';
 import { useUserContext } from '../../Context/UserContext';
+import { useThemeContext } from '../../Context/ThemeContext';
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from '../../Firebase/firebaseConfig';
 import { v4 } from 'uuid'
@@ -17,12 +18,13 @@ const inputStyles = {
     background: 'rgb(238, 245, 251)', 
     padding: '5px 15px', 
     borderRadius: '16px',
-    marginLeft: '10px'
+    marginLeft: '10px',
 }
 
 const CreatePost = () => {
 
     const { user } = useUserContext()
+    const { dark } = useThemeContext()
     const token = user.access_token
 
     const [loading, setLoading] = useState(false);
@@ -102,12 +104,13 @@ const CreatePost = () => {
 
     return (
         <>
-            <Card className="createpost">
+            <Card className={`createpost ${dark && 'createpostdark'}`}>
                 <div className='inputWrapper'>
                     {user.img ? <Avatar alt="Remy Sharp" src={user.img} sx={{width: '60px', height: '60px'}}/> : 
                     <Avatar sx={{ bgcolor: 'brown' }}>{user.name[0]}</Avatar>}
                     <InputBase
                         sx={inputStyles}
+                        className={dark && 'customsearchinputdark'}
                         placeholder="What's on your mind?"
                         onChange={e => setDesc(e.target.value)}
                         value={desc}

@@ -3,10 +3,12 @@ import './Conversation.css';
 import { useUserContext } from '../../Context/UserContext';
 import MyLoader from '../MyLoader';
 import { Avatar } from '@mui/material';
+import { useThemeContext } from '../../Context/ThemeContext';
 
 const Conversation = ({conversation, setCurrentChat}) => {
 
     const { user } = useUserContext()
+    const { dark } = useThemeContext()
     const [loading, setLoading] = useState(true)
     const [member, setMember] = useState(null)
 
@@ -45,7 +47,7 @@ const Conversation = ({conversation, setCurrentChat}) => {
     return (
         <>
             {loading ? <MyLoader /> : 
-            <div onClick={handleConversation} className="conversation">
+            <div onClick={handleConversation} className={`conversation ${dark && 'conversationdark'}`}>
                 {member.profilePic ? <Avatar alt="Remy Sharp" src={member.profilePic} /> : 
                 <Avatar sx={{ bgcolor: 'brown' }}>{member.username[0]}</Avatar>}
                 <div className='conversationInfo'>

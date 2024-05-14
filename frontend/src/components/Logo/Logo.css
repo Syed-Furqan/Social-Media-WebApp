@@ -7,4 +7,9 @@
     color: white;
     padding: 8px 0;
     border-radius: 8px 8px 0 0;
+    box-sizing: border-box;
+}
+
+.logo:hover {
+    cursor: pointer;
 }

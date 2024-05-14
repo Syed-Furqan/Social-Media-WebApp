@@ -6,11 +6,13 @@ import { useUserContext } from '../../Context/UserContext';
 import MyLoader from '../MyLoader';
 import { useNavigate } from 'react-router-dom'
 import Mostpopular from '../MostPopular/Mostpopular';
+import { useThemeContext } from '../../Context/ThemeContext';
 
 const Rightbar = () => {
 
     const { onlineFollowing } = useSocketContext()
     const { user } = useUserContext()
+    const { dark } = useThemeContext()
 
     const [followings, setFollowings] = useState([])
     const [mostpopular, setMostPopular] = useState([])
@@ -62,7 +64,7 @@ const Rightbar = () => {
     })
 
     return (
-        <div className='rightbar'>
+        <div className={`rightbar ${dark && 'rightbardark'}`}>
             <div className='mostPopular'>
                 <div style={{fontWeight: 'bold', marginBottom: '20px', color: '#686868'}}>Most Popular</div>
                 {ploading ? <MyLoader /> : 

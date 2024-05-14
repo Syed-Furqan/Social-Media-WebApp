@@ -3,6 +3,11 @@
     height: auto;
 }
 
+.usercarddark {
+    background: black !important;
+    color: white !important;
+}
+
 .usercard .profilepic {
     width: 200px;
     height: 200px;
@@ -24,9 +29,17 @@
     border-radius: 50%;
 }
 
+.usercarddark .profilepic .uploadIconLabeldark {
+    background-color: rgb(70, 70, 70);
+}
+
 .usercard .profilepic .uploadIconLabel:hover {
     cursor: pointer;
     background-color: rgb(202, 202, 202);
+}
+
+.usercarddark .profilepic .uploadIconLabeldark:hover {
+    background-color: rgb(86, 86, 86);
 }
 
 .usercard .profilepic .uploadIcon:hover {
@@ -63,10 +76,18 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
+.usercarddark .followWrapperdark {
+    background-color: rgb(42, 42, 42);
+}
+
 .usercard .followWrapper:hover {
     cursor: pointer;
     background-color: rgb(236, 241, 245);
     transition: 400ms;
+}
+
+.usercarddark .followWrapperdark:hover {
+    background-color: rgb(58, 58, 58);
 }
 
 .usercard .followWrapper span{
@@ -97,7 +118,13 @@
 }
 
 .friendModal {
+    font-family: "Nunito", sans-serif;
     padding: 20px;
+}
+
+.friendModaldark {
+    background-color: rgb(37, 37, 37);
+    color: white;
 }
 
 .friendModal .friendModalInfo {
@@ -105,17 +132,25 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 0 10px;
     margin-bottom: 10px;
 }
 
 .friendModal .searchFriendInput {
+    border: 1px solid gray;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.friendModal .searchFriendInput input{
     padding: 0 10px;
+}
+
+.friendModal .searchFriendInputdark input {
+    color: white;
 }
 
 .friendModal .friendsList {
     height: 300px;
     overflow-y: scroll;
-    padding: 10px;
-    margin-top: 15px;
+    margin-top: 25px;
 }

@@ -73,9 +73,6 @@ io.on('connection', async (socket) => {
             }
         })
     })
-
-    console.log(online_users)
-    console.log(online_friends)
 })
 
 

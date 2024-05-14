@@ -4,10 +4,12 @@ import MyLoader from '../MyLoader';
 import { useUserContext } from '../../Context/UserContext';
 import Conversation from '../Conversation/Conversation';
 import { Paper } from '@mui/material';
+import { useThemeContext } from '../../Context/ThemeContext';
 
 const ConversationsList = ({setCurrentChat}) => {
 
     const { user } = useUserContext()
+    const { dark } = useThemeContext()
     const [loading, setLoading] = useState(true)
     const [conversations, setConversations] = useState([])
     
@@ -30,7 +32,7 @@ const ConversationsList = ({setCurrentChat}) => {
     }, [user])
 
     return (
-        <Paper className="conversationslist">
+        <Paper className={`conversationslist ${dark && 'conversationslistdark'}`}>
             {loading ? <MyLoader /> :
             conversations.length === 0 ? <div>No Conversations Yet</div> : 
             conversations.map(con => (

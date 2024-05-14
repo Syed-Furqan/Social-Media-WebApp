@@ -11,14 +11,15 @@ import Message from './root/pages/Message/Message';
 import NewPassword from './auth/forms/NewPassword/NewPassword';
 import Reset from './auth/forms/Reset/Reset';
 import { useUserContext } from './Context/UserContext';
-
+import { useThemeContext } from './Context/ThemeContext';
 
 function App() {  
 
   const { user } = useUserContext()
+  const { dark } = useThemeContext()
 
   return (
-    <>
+    <div className={dark ? 'Appdark' : 'App'}>
         <Routes>
           <Route element={user.access_token ? <RootLayout /> : <Navigate to='/login' />}>
             <Route path="/" element={<Home />} />
@@ -34,13 +35,13 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/resetPassword' element={<Reset />} />
-            <Route path='resetPassword/:token' element={<NewPassword />} />
+            <Route path='/resetPassword/:token' element={<NewPassword />} />
           </Route>
 
           <Route path='*' element={<p>Page Not Found!!!</p>} />
 
         </Routes>
-    </>
+    </div>
   );
 }
 

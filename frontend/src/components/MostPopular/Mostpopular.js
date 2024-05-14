@@ -1,7 +1,11 @@
+import { useThemeContext } from '../../Context/ThemeContext';
 import './Mostpopular.css'
 import { Avatar } from '@mui/material';
 
 const Mostpopular = ({popular, showpopularProfile}) => {
+
+    const { dark } = useThemeContext()
+
     return (
         <div className="popular" onClick={showpopularProfile}>
             <div style={{display: 'flex', alignItems: 'center'}}>
@@ -11,7 +15,7 @@ const Mostpopular = ({popular, showpopularProfile}) => {
                     <h4 style={{margin: 0}}>{popular.username}</h4>
                 </div>
             </div>
-            <div className='popularFollowers'>
+            <div className={`popularFollowers ${dark && 'popularFollowersdark'}`}>
                 {`${popular.length}k`}
             </div>
         </div>

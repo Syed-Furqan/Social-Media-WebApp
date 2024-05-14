@@ -53,7 +53,7 @@ const Reset = () => {
 
     return (
         <div className="resetEmail">
-            <h3 style={{textAlign: 'center'}}>Enter your registered email</h3>
+            <h3 style={{textAlign: 'center', color: 'black'}}>Enter your registered email</h3>
             <div style={{width: '100%', height: '52px'}}>
                 <InputBase 
                     type='email' 

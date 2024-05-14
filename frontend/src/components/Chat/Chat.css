@@ -18,6 +18,12 @@
     position: sticky;
     top: 0;
 }
+
+.chattopbardark {
+    background-color: rgb(75, 75, 75);
+    color: white;
+}
+
 .chattopbar .currentmemberinfo {
     display: flex;
     align-items: center;
@@ -32,9 +38,32 @@
     flex-direction: column;
 }
 
+.currentchatmessagesdark {
+    background-color: black;
+}
+
 .chat .chatInput {
     width: 100%;
     height: 55px;
     position: absolute;
     bottom: 0;
+    padding-right: 5px;
+    box-sizing: border-box;
+    background-color: rgb(223, 234, 245);
+}
+
+.chat .chatInput input {
+    padding: 0 10px !important; 
+}
+
+.chat .chatInputdark {
+    background-color: rgb(57, 57, 57) !important;
+}
+
+.chat .chatInputdark input {
+    color: white;
+}
+
+.chat .chatInputdark input::placeholder {
+    color: rgb(198, 198, 198) !important;
 }

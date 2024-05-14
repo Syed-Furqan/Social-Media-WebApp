@@ -8,10 +8,19 @@
     border-radius: 4px;
 }
 
+.conversationdark {
+    background-color: rgb(48, 48, 48);
+    color: white;
+}
+
 .conversation:hover {
     cursor: pointer;
     background-color: rgb(222, 231, 239);
     transition: 500ms;
+}
+
+.conversationdark:hover {
+    background-color: rgb(71, 71, 71);
 }
 
 .conversation .conversationInfo {

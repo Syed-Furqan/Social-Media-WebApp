@@ -9,10 +9,19 @@
     color: black;
 }
 
+.frienddark {
+    background-color: black;
+    color: white;
+}
+
 .friend:hover {
     cursor: pointer;
     background-color: rgb(188, 217, 240);
     transition: 500ms;
+}
+
+.frienddark:hover {
+    background-color: rgb(71, 71, 71);
 }
 
 .friend .friendInfo {

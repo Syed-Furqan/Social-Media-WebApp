@@ -1,8 +1,8 @@
 import './Logo.css'
 
-const Logo = ({styles}) => {
+const Logo = ({styles, ...props}) => {
     return (
-        <div className="logo" style={styles}>
+        <div className="logo" style={styles} {...props}>
             Share Space
         </div>
     );

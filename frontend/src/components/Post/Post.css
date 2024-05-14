@@ -3,3 +3,12 @@
     box-shadow: none !important;
     border-radius: 16px !important;
 }
+
+.Postdark {
+    background-color: black !important;
+    color: white !important;
+}
+
+.timedark {
+    color: gray;
+}

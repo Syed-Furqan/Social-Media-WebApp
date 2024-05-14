@@ -1,9 +1,13 @@
+import { useThemeContext } from '../../Context/ThemeContext';
 import './Friend.css'
 import { Avatar } from '@mui/material';
 
 const Friend = ({friend, showFriendProfile, styles}) => {
+
+    const { dark } = useThemeContext()
+
     return (
-        <div className="friend" onClick={showFriendProfile} style={styles}>
+        <div className={`friend ${dark && 'frienddark'}`} onClick={showFriendProfile} style={styles}>
             {friend.profilePic ? <Avatar alt="Remy Sharp" src={friend.profilePic} /> : 
             <Avatar sx={{ bgcolor: 'brown' }}>{friend.username[0]}</Avatar>}
             <div className='friendInfo'>

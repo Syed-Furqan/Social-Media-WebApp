@@ -7,11 +7,13 @@ import MyButton from '../MyButton';
 import { useEffect, useState } from 'react';
 import MyLoader from '../MyLoader';
 import { useUserContext } from '../../Context/UserContext';
+import { useThemeContext } from '../../Context/ThemeContext';
 import { dateAgo } from '../../utils/time';
 
 const Post = ({post}) => {
 
     const { user } = useUserContext()
+    const { dark } = useThemeContext()
     const [loading, setLoading] = useState(true)
     const [postUser, setPostUser] = useState(null)
     const [liking, setLiking] = useState(false)
@@ -58,7 +60,7 @@ const Post = ({post}) => {
     return (
         <>
         {loading ? <MyLoader size={20} /> : 
-        <Card className='Post'>
+        <Card className={`Post ${dark && 'Postdark'}`}>
             <CardHeader
                 avatar={
                 postUser.profilePic ? <Avatar alt="Remy Sharp" src={postUser.profilePic} sx={{width: '50px', height: '50px'}}/> : 
@@ -66,12 +68,12 @@ const Post = ({post}) => {
                 }
                 action={
                 postUser._id === user.id &&
-                <IconButton aria-label="settings">
+                <IconButton aria-label="postsettings">
                     <MoreVertIcon />
                 </IconButton>
                 }
                 title={<p style={{fontWeight: 'bold', fontSize: '18px', margin: '0'}}>{postUser.username}</p>}
-                subheader={dateAgo(Date.parse(post.createdAt))}
+                subheader={<span className={dark && 'timedark'}>{dateAgo(Date.parse(post.createdAt))}</span>}
             />
             <div style={{padding: '0 16px'}}>
                 <CardMedia

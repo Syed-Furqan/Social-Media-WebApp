@@ -12,6 +12,7 @@ import { useSocketContext } from '../../Context/SocketContext';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { googleLogout } from '@react-oauth/google';
+import { useThemeContext } from '../../Context/ThemeContext';
 
 const iconstyles = {
     width: '100%',
@@ -22,6 +23,7 @@ const Sidebar = () => {
 
     const { user, setContextUser } = useUserContext()
     const { socket } = useSocketContext()
+    const { dark } = useThemeContext()
 
     const topItems = [
         {name: 'Home', icon: <HomeIcon sx={{...iconstyles, color: '#18a9bb'}} />, link: '/'}, 
@@ -39,6 +41,8 @@ const Sidebar = () => {
     const currentPath = location.pathname
 
     useEffect(() => {
+        console.log(currentPath)
+        console.log(currentItemLink)
         if(currentItemLink !== currentPath) {
             setCurrentItemLink(currentPath)
         }
@@ -52,11 +56,11 @@ const Sidebar = () => {
     }
 
     return (
-        <div className='sidebar'>
+        <div className={`sidebar ${dark && 'sidebardark'}`}>
             <div>
                 {topItems.map(item => (
                 <Link key={item.link} to={item.link} style={{textDecoration: 'none', color: 'inherit'}}>
-                    <div className={`sidebaritem ${(currentItemLink === item.link) && 'activesidebaritem'}`}>
+                    <div className={`sidebaritem ${ dark && 'sidebaritemdark'} ${(currentItemLink === item.link || (item.link === `/profile/${user.id}` && currentItemLink.includes('/profile'))) && `activesidebaritem ${dark && 'activesidebaritemdark'}`}`}>
                         <div className='sidebaritemicon'>{item.icon}</div>
                         <div className='sidebariteminfo'>{item.name}</div>
                     </div>
@@ -66,13 +70,13 @@ const Sidebar = () => {
             <div>
                 {bottomItems.map(item => (
                 <Link key={item.link} to={item.link} style={{textDecoration: 'none', color: 'inherit'}}>
-                    <div className={`sidebaritem ${(currentItemLink === item.link) && 'activesidebaritem'}`}>
+                    <div className={`sidebaritem ${ dark && 'sidebaritemdark'} ${(currentItemLink === item.link) && `activesidebaritem ${dark && 'activesidebaritemdark'}`}`}>
                         <div className='sidebaritemicon'>{item.icon}</div>
                         <div className='sidebariteminfo'>{item.name}</div>
                     </div>
                 </Link>
                 ))}
-                <div className='sidebaritem' onClick={logout} >
+                <div className={`sidebaritem ${ dark && 'sidebaritemdark'}`} onClick={logout} >
                     <div className='sidebaritemicon'><LogoutIcon sx={{...iconstyles, color: '#ba0202'}} /></div>
                     <div className='sidebariteminfo'>Logout</div>
                 </div>

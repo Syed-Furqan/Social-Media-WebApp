@@ -6,10 +6,12 @@ import { useUserContext } from '../../Context/UserContext';
 import MyLoader from '../MyLoader';
 import Friend from '../Friend/Friend';
 import { useNavigate } from 'react-router-dom';
+import { useThemeContext } from '../../Context/ThemeContext';
 
 const SearchUsers = () => {
 
     const { user } = useUserContext()
+    const { dark } = useThemeContext()
     const [name, setName] = useState('')
     const [searchedUsers, setSearchedUsers] = useState([])
     const [loading, setLoading] = useState(false)
@@ -46,19 +48,19 @@ const SearchUsers = () => {
     }
 
     return (
-        <div className='searchUsers'>
+        <div className={`searchUsers ${dark && 'searchUsersdark'}`}>
             <div className='searchIcon' onClick={() => setName('')}>
                 <SearchIcon sx={{width: '100%', height: '100%', color: 'black'}} />
             </div>
-            <input placeholder='Search Users' className='searchInput' value={name} onChange={e => setName(e.target.value)} />
+            <input placeholder='Search Users' className={`searchInput ${dark && 'searchInputdark'}`} value={name} onChange={e => setName(e.target.value)} />
             {name !== '' && 
-            <div className='clearSearchIcon' onClick={() => setName('')}>
+            <div className={`clearSearchIcon ${dark && 'clearSearchIcondark'}`} onClick={() => setName('')}>
                 <CloseIcon sx={{width: '100%', height: '100%', color: 'black'}} />
             </div>
             }
             {name !== '' && 
-            <div className='foundUsersContainer'>
-                {loading ? <MyLoader /> : searchedUsers.length === 0 ? <p style={{color: 'black'}}>No entries Found</p> : 
+            <div className={`foundUsersContainer ${dark && 'foundUsersContainerdark'}`}>
+                {loading ? <MyLoader /> : searchedUsers.length === 0 ? <p>No entries Found</p> : 
                 searchedUsers.map(searchedUser => (
                     <Friend key={searchedUser._id} friend={searchedUser} showFriendProfile={() => showFriendProfile(searchedUser._id)} />
                 ))
