@@ -91,7 +91,7 @@ const Chat = ({currentChat, setCurrentChat}) => {
                         <h3 style={{margin: 0, marginLeft: '5px'}}>{member.username}</h3>
                     </div>  
                 </div>
-                <IconButton aria-label="close" sx={{width: '40px', height: '40px'}} className={dark && 'closeIcondark'} onClick={() => setCurrentChat(null)}>
+                <IconButton aria-label="close" sx={{width: '40px', height: '40px'}} className={dark ? 'closeIcondark' : ''} onClick={() => setCurrentChat(null)}>
                     <CloseIcon />
                 </IconButton>
             </div>
@@ -104,7 +104,7 @@ const Chat = ({currentChat, setCurrentChat}) => {
             </div>
             <div className={`chatInput ${dark && 'chatInputdark'}`}>
                 <InputBase endAdornment={<IconButton onClick={sendMessage} className={dark && 'sendIcondark'}><SendIcon /></IconButton>} 
-                    sx={{width: '100%', height: '100%', fontSize: '18px'}} 
+                    sx={{width: '100%', height: '100%', fontSize: dark ? '14px' : '18px'}} 
                     placeholder='Type a Message'
                     value={messageText}
                     onChange={e => setMessageText(e.target.value)}

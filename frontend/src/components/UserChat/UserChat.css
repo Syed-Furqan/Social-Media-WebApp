@@ -28,3 +28,13 @@
 .userchat .owntimeAgo {
     right: 5px;
 }
+
+@media (max-width: 450px) {
+    .userchat {
+        font-size: 14px;
+    }
+
+    .userchat .timeAgo {
+        font-size: 10px;
+    }
+}

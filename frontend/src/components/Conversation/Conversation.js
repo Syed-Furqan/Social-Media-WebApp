@@ -5,7 +5,7 @@ import MyLoader from '../MyLoader';
 import { Avatar } from '@mui/material';
 import { useThemeContext } from '../../Context/ThemeContext';
 
-const Conversation = ({conversation, setCurrentChat}) => {
+const Conversation = ({conversation, setCurrentChat, setSelectedPanel}) => {
 
     const { user } = useUserContext()
     const { dark } = useThemeContext()
@@ -38,6 +38,7 @@ const Conversation = ({conversation, setCurrentChat}) => {
     }
 
     const handleConversation = () => {
+        setSelectedPanel('chat')
         setCurrentChat({
             conversationId: conversation._id, 
             member: {id: member._id, username: member.username, profilePic: member.profilePic}

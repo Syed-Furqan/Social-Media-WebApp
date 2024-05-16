@@ -12,3 +12,9 @@
 .timedark {
     color: gray;
 }
+
+@media (max-width: 430px) {
+    .time {
+        font-size: 12px;
+    }
+}

@@ -7,3 +7,9 @@
     flex-direction: row;
     align-items: center;
 }
+
+.logoWrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

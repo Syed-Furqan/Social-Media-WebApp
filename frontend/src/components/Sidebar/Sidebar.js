@@ -19,7 +19,7 @@ const iconstyles = {
     height: '100%',
 }
 
-const Sidebar = () => {
+const Sidebar = ({ sidebarOpen }) => {
 
     const { user, setContextUser } = useUserContext()
     const { socket } = useSocketContext()
@@ -56,11 +56,11 @@ const Sidebar = () => {
     }
 
     return (
-        <div className={`sidebar ${dark && 'sidebardark'}`}>
+        <div className={`sidebar ${dark && 'sidebardark'} ${sidebarOpen && 'tabletSidebar'}`}>
             <div>
                 {topItems.map(item => (
                 <Link key={item.link} to={item.link} style={{textDecoration: 'none', color: 'inherit'}}>
-                    <div className={`sidebaritem ${ dark && 'sidebaritemdark'} ${(currentItemLink === item.link || (item.link === `/profile/${user.id}` && currentItemLink.includes('/profile'))) && `activesidebaritem ${dark && 'activesidebaritemdark'}`}`}>
+                    <div className={`sidebaritem ${ dark && 'sidebaritemdark'} ${(currentItemLink === item.link) && `activesidebaritem ${dark && 'activesidebaritemdark'}`}`}>
                         <div className='sidebaritemicon'>{item.icon}</div>
                         <div className='sidebariteminfo'>{item.name}</div>
                     </div>

@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
+import { useMediaQuery } from 'react-responsive';
 
 const style = {
     position: 'absolute',
@@ -15,6 +16,8 @@ const style = {
 };
 
 const MyModal = ({open, close, children}) => {
+    const isSmallDevice = useMediaQuery({query: '(max-width: 450px)'})
+
     return (
         <Modal
             open={open}
@@ -22,7 +25,7 @@ const MyModal = ({open, close, children}) => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box style={style}>
+            <Box style={{...style, width: isSmallDevice ? '330px' : '400px'}}>
                 {children}
             </Box>
         </Modal>

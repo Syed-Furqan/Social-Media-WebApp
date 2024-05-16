@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import Mostpopular from '../MostPopular/Mostpopular';
 import { useThemeContext } from '../../Context/ThemeContext';
 
-const Rightbar = () => {
+const Rightbar = ({ rightbarOpen }) => {
 
     const { onlineFollowing } = useSocketContext()
     const { user } = useUserContext()
@@ -64,7 +64,7 @@ const Rightbar = () => {
     })
 
     return (
-        <div className={`rightbar ${dark && 'rightbardark'}`}>
+        <div className={`rightbar ${dark && 'rightbardark'} ${rightbarOpen && 'mobileRightbar'}`}>
             <div className='mostPopular'>
                 <div style={{fontWeight: 'bold', marginBottom: '20px', color: '#686868'}}>Most Popular</div>
                 {ploading ? <MyLoader /> : 

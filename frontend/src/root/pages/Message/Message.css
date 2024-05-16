@@ -11,3 +11,51 @@
     width: 100%;
     padding: 15px;
 }
+
+.message .conversationPanel {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 30px;
+    background: white;
+    border-radius: 4px;
+}
+
+.message .conversationPaneldark {
+    background-color: black;
+}
+
+.conversationPanelconvos, .conversationPanelchat {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.selectedPanel {
+    background-color: #1976d2;
+    color: white;
+}
+
+.selectedPaneldark {
+    background-color: rgb(34,34,34);
+}
+
+.unselectedPanel:hover {
+    cursor: pointer;
+    background-color: #bedfff;
+    transition: 600ms;
+}
+
+.unselectedPaneldark:hover {
+    cursor: pointer;
+    background-color: rgb(69, 69, 69);
+    transition: 600ms;
+}
+
+@media (max-width: 800px) {
+    .message {
+        flex-direction: column;
+        height: calc(100vh - 150px);
+    }
+}

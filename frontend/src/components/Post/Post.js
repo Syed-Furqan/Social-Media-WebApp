@@ -9,8 +9,9 @@ import MyLoader from '../MyLoader';
 import { useUserContext } from '../../Context/UserContext';
 import { useThemeContext } from '../../Context/ThemeContext';
 import { dateAgo } from '../../utils/time';
+import { useMediaQuery } from 'react-responsive';
 
-const Post = ({post}) => {
+const Post = ({ post }) => {
 
     const { user } = useUserContext()
     const { dark } = useThemeContext()
@@ -19,6 +20,8 @@ const Post = ({post}) => {
     const [liking, setLiking] = useState(false)
     const [isLiked, setIsLiked] = useState(post.likes.includes(user.id))
     const [totalLikes, setTotalLikes] = useState(post.likes.length)
+
+    const isSmallDevice = useMediaQuery({query: '(max-width: 430px)'})
 
     useEffect(() => {
         fetch(`http://localhost:2000/api/user/${post.userId}`, {
@@ -57,13 +60,18 @@ const Post = ({post}) => {
         })
     }
 
+    const avatarStyles = {
+        width: isSmallDevice ? '40px' : '50px',
+        height: isSmallDevice ? '40px' : '50px'
+    }
+
     return (
         <>
         {loading ? <MyLoader size={20} /> : 
         <Card className={`Post ${dark && 'Postdark'}`}>
             <CardHeader
                 avatar={
-                postUser.profilePic ? <Avatar alt="Remy Sharp" src={postUser.profilePic} sx={{width: '50px', height: '50px'}}/> : 
+                postUser.profilePic ? <Avatar alt="Remy Sharp" src={postUser.profilePic} sx={avatarStyles}/> : 
                 <Avatar sx={{ bgcolor: 'brown' }}>{postUser.username[0]}</Avatar>
                 }
                 action={
@@ -72,13 +80,15 @@ const Post = ({post}) => {
                     <MoreVertIcon />
                 </IconButton>
                 }
-                title={<p style={{fontWeight: 'bold', fontSize: '18px', margin: '0'}}>{postUser.username}</p>}
-                subheader={<span className={dark && 'timedark'}>{dateAgo(Date.parse(post.createdAt))}</span>}
+                title={<p style={{fontWeight: 'bold', fontSize: isSmallDevice ? '14px' : '18px', margin: '0'}}>
+                    {postUser.username}
+                </p>}
+                subheader={<span className={`time ${dark && 'timedark'}`}>{dateAgo(Date.parse(post.createdAt))}</span>}
             />
             <div style={{padding: '0 16px'}}>
                 <CardMedia
                     component="img"
-                    height="300"
+                    height={`${isSmallDevice ? '250px' : '300px'}`}
                     image={post.img}
                     alt="Paella dish"
                     sx={{borderRadius: '4px'}}

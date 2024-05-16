@@ -67,3 +67,18 @@
 .chat .chatInputdark input::placeholder {
     color: rgb(198, 198, 198) !important;
 }
+
+@media (max-width: 800px) {
+    .chat {
+        margin: 0;
+    }
+}
+
+@media (max-width: 450px) {
+    .chat .currentchatmessages {
+        height: calc(100% - 110px);
+    }
+    .chat .chatInput {
+        height: 45px;
+    }
+}

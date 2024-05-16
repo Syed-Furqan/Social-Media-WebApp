@@ -21,3 +21,17 @@
 .rightbar .mostPopular {
     margin-bottom: 50px;
 }
+
+.mobileRightbar {
+    position: absolute;
+    top: 70px;
+    right: 0;
+    z-index: 999;
+    height: calc(100vh - 70px);
+}
+
+@media (max-width: 800px) {
+    .rightbar {
+        width: 280px;
+    }
+}

@@ -6,10 +6,50 @@
 
 #timelineWrapper {
     height: 100%;
+    overflow: hidden;
     overflow-y: scroll;
 
     /* This field keeps in check the padding/margin doesnt overflow the height */
     box-sizing: border-box;
     flex: auto;
     padding: 25px;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+#timelineWrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.infiniteScroll {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.infiniteScroll::-webkit-scrollbar {
+    display: none;
+}   
+
+@media (max-width:800px) {
+    #timelineWrapper {
+        margin: 0 10%;
+    }
+}
+
+@media (max-width:550px) {
+    #timelineWrapper {
+        margin: 0 5%;
+    }
+}
+
+@media (max-width: 500px) {
+    #timelineWrapper {
+        margin: 0;
+    }
+}
+
+@media (max-width: 430px) {
+    #timelineWrapper {
+        padding: 15px;
+    }
 }

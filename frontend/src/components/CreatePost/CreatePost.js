@@ -9,7 +9,8 @@ import { useUserContext } from '../../Context/UserContext';
 import { useThemeContext } from '../../Context/ThemeContext';
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from '../../Firebase/firebaseConfig';
-import { v4 } from 'uuid'
+import { useMediaQuery } from 'react-responsive';
+import { v4 } from 'uuid';
 
 const inputStyles = { 
     ml: 1, 
@@ -35,6 +36,7 @@ const CreatePost = () => {
     const [modalMessage, setModalMessage] = useState('')
     const [open, setOpen] = useState(false)
 
+    const isMobile = useMediaQuery({query: '(max-width: 430px)'})
 
     const create = async () => {
         setLoading(true)
@@ -102,15 +104,20 @@ const CreatePost = () => {
         setOpen(false)
     }
 
+    const avatarStyles = {
+        width: isMobile ? '45px' : '60px',
+        height: isMobile ? '45px' : '60px'
+    }
+
     return (
         <>
             <Card className={`createpost ${dark && 'createpostdark'}`}>
                 <div className='inputWrapper'>
-                    {user.img ? <Avatar alt="Remy Sharp" src={user.img} sx={{width: '60px', height: '60px'}}/> : 
+                    {user.img ? <Avatar alt="Remy Sharp" src={user.img} sx={avatarStyles} /> : 
                     <Avatar sx={{ bgcolor: 'brown' }}>{user.name[0]}</Avatar>}
                     <InputBase
                         sx={inputStyles}
-                        className={dark && 'customsearchinputdark'}
+                        className={dark ? 'customsearchinputdark' : ''}
                         placeholder="What's on your mind?"
                         onChange={e => setDesc(e.target.value)}
                         value={desc}

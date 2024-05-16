@@ -10,8 +10,37 @@
 
 .profilePosts {
     flex: 1;
-    margin: 0 30px;
+    margin-left: 20px;
     padding: 0 20px;
     height: 100%;
     overflow-y: scroll;
+}
+
+@media (max-width: 800px) {
+    .profile {
+        flex-direction: column;
+        height: auto;
+        width: auto;
+        margin: 0 10%;
+    }
+
+    .profilePosts {
+        margin: 0;
+        margin: 30px 0;
+        padding: 0;
+        overflow-y: unset;
+    }
+}
+
+@media (max-width: 700px) {
+    .profile {
+        margin: 0 5%;
+    }
+}
+
+@media (max-width: 450px) {
+    .profile {
+        margin: 0;
+        padding: 15px;
+    }
 }

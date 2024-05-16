@@ -4,7 +4,7 @@ import { Paper, IconButton, InputBase } from '@mui/material'
 import MyButton from '../MyButton';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
+import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { useUserContext } from '../../Context/UserContext';
@@ -156,13 +156,13 @@ const UserCard = ({ profileUser }) => {
                 </div>
                 <div className='profileInfo'>
                     <h2 style={{margin: '0px'}}>{profileUser.username}</h2>
-                    <p style={{marginTop: '2px'}}>{profileUser.email}</p>
+                    <p style={{marginTop: '2px', color: '#8f8f8f'}}>{profileUser.email}</p>
                 </div>
             </div>
             <p style={{marginBottom: '30px'}}>Honestly I am here for a good time...</p>
             {user.id !== profileUser._id &&
             <div style={{marginBottom: '30px'}}>
-                {following ? <MyButton color='error' startIcon={<RemoveIcon />} onClick={() => takeAction('unfollow')} disabled={buttonLoading} endIcon={buttonLoading && <MyLoader size={10} />}>Remove</MyButton>
+                {following ? <MyButton color='error' startIcon={<DeleteIcon />} onClick={() => takeAction('unfollow')} disabled={buttonLoading} endIcon={buttonLoading && <MyLoader size={10} />}>Remove</MyButton>
                 : 
                 <MyButton startIcon={<AddIcon />} onClick={() => takeAction('follow')} disabled={buttonLoading} endIcon={buttonLoading && <MyLoader size={10} />}>Follow</MyButton>
                 }
@@ -205,12 +205,12 @@ const UserCard = ({ profileUser }) => {
                                 <span style={{fontSize: '18px', marginRight: '15px'}}>{friends.friendType}</span>
                                 <span style={{fontWeight: 'bold', fontSize: '20px'}}>{friends.friends.length}</span>
                             </div>
-                            <IconButton aria-label="close" sx={{width: '40px', height: '40px'}} className={dark && 'closeIcondark'} onClick={() => setOpenFriend(false)}>
+                            <IconButton aria-label="close" sx={{width: '40px', height: '40px'}} className={dark ? 'closeIcondark' : ''} onClick={() => setOpenFriend(false)}>
                                 <CloseIcon />
                             </IconButton>
                         </div>
                         <div className={`searchFriendInput ${dark && 'searchFriendInputdark'}`}>
-                            <InputBase endAdornment={<IconButton onClick={search} className={dark && 'sendIcondark'}><SendIcon /></IconButton>} 
+                            <InputBase endAdornment={<IconButton onClick={search} className={dark ? 'sendIcondark' : ''}><SendIcon /></IconButton>} 
                                 sx={{width: '100%', fontSize: '16px'}} 
                                 placeholder='Search'
                                 value={searchFriend}

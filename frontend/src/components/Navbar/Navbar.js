@@ -1,5 +1,6 @@
 import './Navbar.css'
 import * as React from 'react';
+import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -18,13 +19,24 @@ import { useThemeContext } from '../../Context/ThemeContext';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import Logo from '../Logo/Logo';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
+import PeopleIcon from '@mui/icons-material/People';
+import { useMediaQuery } from 'react-responsive';
+import { useLocation } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({sidebarOpen, setSidebarOpen, setRightbarOpen}) => {
   const { user, setContextUser } = useUserContext()
   const { socket } = useSocketContext()
   const { dark, setContextDark } = useThemeContext()
 
   const navigate = useNavigate()
+
+  const isTablet = useMediaQuery({query: '(max-width: 1050px)'})
+  const isMobile = useMediaQuery({query: '(max-width: 800px)'})
+
+  const location = useLocation()
+  const currentPath = location.pathname
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -52,15 +64,34 @@ const Navbar = () => {
     setContextDark(prev => !prev)
   }
 
+  const logoStyles = {
+    width: isMobile ? '140px' : '180px', 
+    height: isMobile ? '50px' : '60px', 
+    background: 'none', 
+    fontSize: isMobile ? '20px' : '25px'
+  }
+
   return (
-    <AppBar position="static" sx={{height: '70px', boxShadow: 'none !important'}} className={dark && 'appbardark'}>
+    <AppBar position="static" sx={{height: '70px', boxShadow: 'none !important'}} className={dark ? 'appbardark' : ''}>
       <Container maxWidth="xl" sx={{height: '100%'}}>
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100%', width: '100%'}} >
-          <Logo styles={{width: '180px', height: '60px', background: 'none', fontSize: '25px'}} 
-            onClick={() => navigate('/')} 
-          />
-          <SearchUsers />
+          <div className='logoWrapper'>
+            {isTablet &&
+            <IconButton onClick={() => setSidebarOpen(prev => !prev)}>
+              {sidebarOpen ? <CloseIcon sx={{color: 'white'}} /> : <MenuIcon sx={{color: 'white'}} />}
+            </IconButton>
+            }
+            <Logo styles={logoStyles} 
+              onClick={() => navigate('/')} 
+            />
+          </div>
+          {!isMobile && <SearchUsers />}
           <div className='navbarrightIcons'>
+            {currentPath === '/' && isMobile &&
+            <IconButton onClick={() => setRightbarOpen(prev => !prev)}>
+              <PeopleIcon sx={{color: 'white'}} />
+            </IconButton>
+            }
             <IconButton onClick={changeTheme} sx={{marginRight: '20px'}}>
               {dark ? <LightModeIcon sx={{color: 'white'}}/> : <DarkModeIcon sx={{color: 'black'}} />}
             </IconButton>

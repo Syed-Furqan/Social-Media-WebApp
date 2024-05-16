@@ -6,7 +6,7 @@ import Conversation from '../Conversation/Conversation';
 import { Paper } from '@mui/material';
 import { useThemeContext } from '../../Context/ThemeContext';
 
-const ConversationsList = ({setCurrentChat}) => {
+const ConversationsList = ({setCurrentChat, setSelectedPanel}) => {
 
     const { user } = useUserContext()
     const { dark } = useThemeContext()
@@ -36,7 +36,7 @@ const ConversationsList = ({setCurrentChat}) => {
             {loading ? <MyLoader /> :
             conversations.length === 0 ? <div>No Conversations Yet</div> : 
             conversations.map(con => (
-                <Conversation conversation={con} key={con._id} setCurrentChat={setCurrentChat} />
+                <Conversation conversation={con} key={con._id} setCurrentChat={setCurrentChat} setSelectedPanel={setSelectedPanel} />
             ))
             }
         </Paper>

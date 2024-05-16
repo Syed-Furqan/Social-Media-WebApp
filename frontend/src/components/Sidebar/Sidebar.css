@@ -48,3 +48,17 @@
     height: 30px;
     margin-right: 10px;   
 }
+
+.tabletSidebar {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    z-index: 999;
+    height: calc(100vh - 70px);
+}
+
+@media (max-width: 950px) {
+    .sidebar {
+        width: 250px;
+    }
+}

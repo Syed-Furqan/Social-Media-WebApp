@@ -1,5 +1,6 @@
 .rootLayout {
     height: 100vh;
+    position: relative;
 }
 
 .rootWrapper {
@@ -12,4 +13,10 @@
     width: 100%;
     height: 100%;
     box-sizing: border-box;
+}
+
+@media (max-width: 800px) {
+    .rootWrapper {
+        overflow-y: scroll;
+    }
 }

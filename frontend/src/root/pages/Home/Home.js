@@ -6,9 +6,12 @@ import CreatePost from '../../../components/CreatePost/CreatePost';
 import { useUserContext } from '../../../Context/UserContext';
 import Rightbar from '../../../components/Rightbar/Rightbar';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useMediaQuery } from 'react-responsive';
+import { useOutletContext } from 'react-router-dom';
 
 const Home = () => {
 
+    const rightbarOpen = useOutletContext()
     const { user } = useUserContext()
 
     const [loading, setLoading] = useState(true);
@@ -18,6 +21,8 @@ const Home = () => {
     const [hasMore, setHasMore] = useState(true)
 
     const [timelinePosts, settimelinePosts] = useState([])
+
+    const isMobile = useMediaQuery({query: '(max-width: 800px)'})
 
     const getMorePosts = () => {
         fetch(`http://localhost:2000/api/post/timeline?page=${page}`, {
@@ -67,13 +72,14 @@ const Home = () => {
                         hasMore={hasMore} 
                         loader={<MyLoader />}
                         scrollableTarget='timelineWrapper'
+                        className='infiniteScroll'
                     >
                         <Timeline timelinePosts={timelinePosts} />
                     </InfiniteScroll>
                 </>
                 }
             </div>
-            <Rightbar />
+            {(!isMobile || isMobile && rightbarOpen) && <Rightbar rightbarOpen={rightbarOpen} />}
         </div>
     );
 }
