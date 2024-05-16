@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../../Context/UserContext';
 import { useGoogleLogin } from '@react-oauth/google';
 import Logo from '../../../components/Logo/Logo';
+import { useMediaQuery } from 'react-responsive';
 
 const inputStyles = { 
     ml: 1, 
@@ -103,9 +104,11 @@ const Login = () => {
         }
     })
 
+    const isSmallDevice = useMediaQuery({query: '(max-width: 450px)'})
+
     return (
         <div className='loginWrapper'>
-            <Logo />
+            <Logo styles={{borderRadius: isSmallDevice ? '0' : '8px 8px 0 0'}} />
             <div className='Login'>
                 <h1 className='loginTitle'>Login</h1>
                 <div className='authInputWrapper'>

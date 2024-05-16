@@ -38,3 +38,11 @@
 .registerBtn:hover {
     background-color: black;
 }
+
+@media (max-width: 450px) {
+    .registerWrapper {
+        width: 100vh;
+        height: 100vh;
+        border-radius: 0;
+    }   
+}

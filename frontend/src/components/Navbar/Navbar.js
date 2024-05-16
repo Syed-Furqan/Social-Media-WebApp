@@ -22,6 +22,7 @@ import Logo from '../Logo/Logo';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import PeopleIcon from '@mui/icons-material/People';
+import SearchIcon from '@mui/icons-material/Search';
 import { useMediaQuery } from 'react-responsive';
 import { useLocation } from 'react-router-dom';
 
@@ -34,6 +35,9 @@ const Navbar = ({sidebarOpen, setSidebarOpen, setRightbarOpen}) => {
 
   const isTablet = useMediaQuery({query: '(max-width: 1050px)'})
   const isMobile = useMediaQuery({query: '(max-width: 800px)'})
+  const isSmallDevice = useMediaQuery({query: '(max-width: 450px)'})
+
+  const [openSearch, setOpenSearch] = useState(false)
 
   const location = useLocation()
   const currentPath = location.pathname
@@ -65,10 +69,10 @@ const Navbar = ({sidebarOpen, setSidebarOpen, setRightbarOpen}) => {
   }
 
   const logoStyles = {
-    width: isMobile ? '140px' : '180px', 
-    height: isMobile ? '50px' : '60px', 
+    width: isSmallDevice ? '110px' : isMobile ? '140px' : '180px', 
+    height: isSmallDevice ? '45px' : isMobile ? '50px' : '60px', 
     background: 'none', 
-    fontSize: isMobile ? '20px' : '25px'
+    fontSize: isSmallDevice ? '17px' : isMobile ? '20px' : '25px' 
   }
 
   return (
@@ -84,8 +88,13 @@ const Navbar = ({sidebarOpen, setSidebarOpen, setRightbarOpen}) => {
             <Logo styles={logoStyles} 
               onClick={() => navigate('/')} 
             />
+            {isMobile && !openSearch && 
+              <IconButton onClick={() => setOpenSearch(true)}>
+                <SearchIcon sx={{color: 'white'}}/>
+              </IconButton>
+            }
           </div>
-          {!isMobile && <SearchUsers />}
+          {(!isMobile || isMobile && openSearch) && <SearchUsers setOpenSearch={setOpenSearch} isMobile={isMobile} />}
           <div className='navbarrightIcons'>
             {currentPath === '/' && isMobile &&
             <IconButton onClick={() => setRightbarOpen(prev => !prev)}>

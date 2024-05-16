@@ -68,3 +68,11 @@
 .alreadyAccount .signuplink:hover, .forgotpasslink:hover {
     cursor: pointer;
 }
+
+@media (max-width: 450px) {
+    .loginWrapper {
+        width: 100vh;
+        height: 100vh;
+        border-radius: 0;
+    }
+}

@@ -8,7 +8,7 @@ import Friend from '../Friend/Friend';
 import { useNavigate } from 'react-router-dom';
 import { useThemeContext } from '../../Context/ThemeContext';
 
-const SearchUsers = () => {
+const SearchUsers = ({ setOpenSearch, isMobile }) => {
 
     const { user } = useUserContext()
     const { dark } = useThemeContext()
@@ -47,14 +47,20 @@ const SearchUsers = () => {
         navigate(`/profile/${id}`)
     }
 
+    const closeclearSearch = () => {
+        if(name === '')
+            setOpenSearch(false)
+        else setName('')
+    }
+
     return (
         <div className={`searchUsers ${dark && 'searchUsersdark'}`}>
             <div className='searchIcon' onClick={() => setName('')}>
                 <SearchIcon sx={{width: '100%', height: '100%', color: 'black'}} />
             </div>
             <input placeholder='Search Users' className={`searchInput ${dark && 'searchInputdark'}`} value={name} onChange={e => setName(e.target.value)} />
-            {name !== '' && 
-            <div className={`clearSearchIcon ${dark && 'clearSearchIcondark'}`} onClick={() => setName('')}>
+            {(isMobile || !isMobile && name !== '') && 
+            <div className={`clearSearchIcon ${dark && 'clearSearchIcondark'}`} onClick={closeclearSearch}>
                 <CloseIcon sx={{width: '100%', height: '100%', color: 'black'}} />
             </div>
             }

@@ -6,6 +6,7 @@ import MyButton from '../../../components/MyButton';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../../Context/UserContext';
 import Logo from '../../../components/Logo/Logo';
+import { useMediaQuery } from 'react-responsive';
 
 const inputStyles = { 
     ml: 1, 
@@ -61,9 +62,11 @@ const Register = () => {
         })
     }
 
+    const isSmallDevice = useMediaQuery({query: '(max-width: 450px)'})
+
     return (
         <div className='registerWrapper'>
-            <Logo />
+            <Logo styles={{borderRadius: isSmallDevice ? '0' : '8px 8px 0 0'}} />
             <div className='Register'>
                 <h1 className='registerTitle'>Register</h1>
                 <div className='authInputWrapper'>

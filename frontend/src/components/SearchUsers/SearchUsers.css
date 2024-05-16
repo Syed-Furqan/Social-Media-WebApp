@@ -1,5 +1,6 @@
 .searchUsers {
     width: 40%;
+    min-width: 350px;
     height: 45px;
     background-color: rgb(255, 255, 255);
     display: flex;
@@ -74,4 +75,13 @@ input::placeholder {
 
 .searchUsersdark .foundUsersContainerdark {
     background: rgb(41, 41, 41);
+}
+
+@media (max-width: 800px) {
+    .searchUsers {
+        width: 95%;
+        position: absolute;
+        left: 2.5%;
+        z-index: 1000;
+    }
 }
