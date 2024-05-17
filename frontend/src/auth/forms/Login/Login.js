@@ -36,7 +36,7 @@ const Login = () => {
         setLoading(true)
         const user = { email, password }
 
-        fetch('http://localhost:2000/api/auth/login', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

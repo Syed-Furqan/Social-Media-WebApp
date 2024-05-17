@@ -23,7 +23,7 @@ const SearchUsers = ({ setOpenSearch, isMobile }) => {
             setLoading(true)
             const timer = setTimeout(async () => {
                 console.log("API Call Made")
-                fetch(`http://localhost:2000/api/user/getUsers/${name}`, {
+                fetch(`${process.env.REACT_APP_BASE_URL}/api/user/getUsers/${name}`, {
                     method: 'GET',
                     headers: {
                         "authorization": `Bearer ${user.access_token}`

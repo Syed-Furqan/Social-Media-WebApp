@@ -31,7 +31,7 @@ const Reset = () => {
         setError({message: '', status: false})
         setMessage({message: '', status: false})
         setLoading(true)
-        fetch('http://localhost:2000/api/auth/resetPassword', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/auth/resetPassword`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",

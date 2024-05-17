@@ -51,7 +51,7 @@ const NewPassword = () => {
 
     const changePassword = () => {
         setLoading(true)
-        fetch(`http://localhost:2000/api/auth/resetPassword/${id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/auth/resetPassword/${id}`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",

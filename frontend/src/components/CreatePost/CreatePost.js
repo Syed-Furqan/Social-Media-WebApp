@@ -61,7 +61,7 @@ const CreatePost = () => {
         }
 
         // Upload post with imageUrl to MongoDB.
-        fetch('http://localhost:2000/api/post', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/post`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

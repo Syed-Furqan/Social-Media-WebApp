@@ -25,7 +25,7 @@ const Home = () => {
     const isMobile = useMediaQuery({query: '(max-width: 800px)'})
 
     const getMorePosts = () => {
-        fetch(`http://localhost:2000/api/post/timeline?page=${page}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/post/timeline?page=${page}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

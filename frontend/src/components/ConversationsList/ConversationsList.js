@@ -26,7 +26,7 @@ const ConversationsList = ({setCurrentChat, setSelectedPanel, isTablet}) => {
 
     useEffect(() => {
         setLoading(true)
-        fetch('http://localhost:2000/api/conversation', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/conversation`, {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${user.access_token}`

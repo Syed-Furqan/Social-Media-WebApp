@@ -36,7 +36,7 @@ const Register = () => {
         setLoading(true)
         const newUser = { email, username, password }
 
-        fetch('http://localhost:2000/api/auth/register', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/auth/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

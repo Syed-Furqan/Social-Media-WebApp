@@ -30,7 +30,7 @@ const Chat = ({currentChat, setCurrentChat}) => {
             conversationId: conversationId
         }
         
-        fetch(`http://localhost:2000/api/message/${conversationId}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/message/${conversationId}`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const Chat = ({currentChat, setCurrentChat}) => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:2000/api/message/${conversationId}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/message/${conversationId}`, {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${user.access_token}`

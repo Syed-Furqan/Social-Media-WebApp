@@ -23,7 +23,7 @@ const Rightbar = ({ rightbarOpen }) => {
 
     useEffect(() => {
         setLoading(true)
-        fetch(`http://localhost:2000/api/user/${user.id}/followingOnline`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/user/${user.id}/followingOnline`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -42,7 +42,7 @@ const Rightbar = ({ rightbarOpen }) => {
 
     useEffect(() => {
         setPloading(true)
-        fetch(`http://localhost:2000/api/user/mostpopular`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/user/mostpopular`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",

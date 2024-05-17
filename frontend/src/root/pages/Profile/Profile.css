@@ -16,6 +16,15 @@
     overflow-y: scroll;
 }
 
+.profilePosts {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.profilePosts::-webkit-scrollbar {
+    display: none;
+} 
+
 @media (max-width: 800px) {
     .profile {
         flex-direction: column;

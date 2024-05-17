@@ -13,7 +13,7 @@ export const SocketProvider = ({children}) => {
 
     useEffect(() => {
         if(user.access_token) {
-            const socket = io.connect('http://localhost:2000', {
+            const socket = io.connect(process.env.REACT_APP_BASE_URL, {
                 query: {
                     userId: user.id
                 }

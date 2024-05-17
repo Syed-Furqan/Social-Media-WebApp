@@ -16,7 +16,7 @@ const Profile = () => {
 
     useEffect(() => {
         setLoading(true)
-        fetch(`http://localhost:2000/api/user/${id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/user/${id}`, {
             method: 'GET', 
             headers: {
                 "authorization": `Bearer ${user.access_token}`

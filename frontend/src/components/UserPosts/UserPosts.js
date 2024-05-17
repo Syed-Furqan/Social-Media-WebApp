@@ -10,7 +10,7 @@ const UserPosts = ({profileId, token}) => {
 
     useEffect(() => {
         console.log(profileId)
-        fetch(`http://localhost:2000/api/post/${profileId}/posts`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/post/${profileId}/posts`, {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${token}`

@@ -47,7 +47,7 @@ const UserCard = ({ profileUser }) => {
     const uploadProfileImage = async () => {
         setLoading(true)
         const profileImageUrl = await uploadImage()
-        fetch(`http://localhost:2000/api/user/${user.id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/user/${user.id}`, {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json",
@@ -93,7 +93,7 @@ const UserCard = ({ profileUser }) => {
     const getFriends = (friendType) => {
         setOpenFriend(true)
         setLoading(true)
-        fetch(`http://localhost:2000/api/user/${profileUser._id}/${friendType}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/user/${profileUser._id}/${friendType}`, {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${user.access_token}`
@@ -126,7 +126,7 @@ const UserCard = ({ profileUser }) => {
 
     const takeAction = (action) => {
         setButtonLoading(true)
-        fetch(`http://localhost:2000/api/user/${action}/${profileUser._id}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/user/${action}/${profileUser._id}`, {
             method: 'PUT',
             headers: {
                 "authorization": `Bearer ${user.access_token}`

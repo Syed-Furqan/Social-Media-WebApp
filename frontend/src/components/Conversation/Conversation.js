@@ -14,7 +14,7 @@ const Conversation = ({conversation, setCurrentChat, setSelectedPanel, isTablet}
 
     useEffect(() => {
         const memberId = getMemberId()
-        fetch(`http://localhost:2000/api/user/${memberId}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/user/${memberId}`, {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${user.access_token}`

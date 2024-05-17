@@ -86,6 +86,6 @@ app.use('/api/conversation', conversationRoutes)
 app.use('/api/message', messageRoutes)
 
 
-server.listen(2000, () => {
+server.listen(process.env.PORT || 2000, () => {
     console.log("Server has started.")
 });

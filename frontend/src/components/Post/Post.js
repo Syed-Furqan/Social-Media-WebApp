@@ -24,7 +24,7 @@ const Post = ({ post }) => {
     const isSmallDevice = useMediaQuery({query: '(max-width: 430px)'})
 
     useEffect(() => {
-        fetch(`http://localhost:2000/api/user/${post.userId}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/user/${post.userId}`, {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${user.access_token}`
@@ -43,7 +43,7 @@ const Post = ({ post }) => {
     const likeUnlikePost = () => {
         setLiking(true)
         const like = isLiked ? 'unlike' : 'like'
-        fetch(`http://localhost:2000/api/post/${post._id}/${like}`, {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/post/${post._id}/${like}`, {
             method: 'PUT',
             headers: {
                 "authorization": `Bearer ${user.access_token}`
