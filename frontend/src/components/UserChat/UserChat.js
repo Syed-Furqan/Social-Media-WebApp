@@ -5,7 +5,7 @@ const UserChat = ({message, own}) => {
     return (
         <div className={`userchat ${own && 'own'}`}>
             {message.text}
-            <p className={`timeAgo ${own && 'owntimeAgo'}`}>{timeAgo(message.sentAt)}</p>
+            <p className={`timeAgo ${own && 'owntimeAgo'}`}>{timeAgo(message?.createdAt)}</p>
         </div>
     );
 }

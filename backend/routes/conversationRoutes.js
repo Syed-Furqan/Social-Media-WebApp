@@ -9,7 +9,7 @@ router.post('/' , async (req, res) => {
     try {
         const foundConversation = await Conversation.findOne({members: { $all: [req.logged_user, req.body.userId] }})
         if(foundConversation) {
-            res.json({status: 404, message: `Already a conversation with: ${req.body.userId}`})
+            res.json({status: 404, message: `Already a conversation with: ${req.body.userId}`, id: foundConversation._id})
         } else {
             const conversation = await Conversation.create({
                 members: [req.logged_user, req.body.userId]

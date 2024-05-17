@@ -4,11 +4,14 @@ import ConversationsList from '../../../components/ConversationsList/Conversatio
 import Chat from '../../../components/Chat/Chat'
 import { useMediaQuery } from 'react-responsive'
 import { useThemeContext } from '../../../Context/ThemeContext'
+import { useLocation } from 'react-router-dom'
 
 const Message = () => {
 
-    const [currentChat, setCurrentChat] = useState(null)
-    const [selectedPanel, setSelectedPanel] = useState('conversation')
+    const { state } = useLocation()
+
+    const [currentChat, setCurrentChat] = useState(state)
+    const [selectedPanel, setSelectedPanel] = useState(state ? 'chat' : 'conversation')
 
     const isTablet = useMediaQuery({query: '(max-width: 800px)'})
     const { dark } = useThemeContext()
@@ -34,7 +37,7 @@ const Message = () => {
                     Chat
                 </div>
             </div>
-            {selectedPanel === 'conversation' ? <ConversationsList setCurrentChat={setCurrentChat} setSelectedPanel={setSelectedPanel} /> :
+            {selectedPanel === 'conversation' ? <ConversationsList setCurrentChat={setCurrentChat} setSelectedPanel={setSelectedPanel} isTablet={isTablet} /> :
             !currentChat ? <div className='noConvoContainer'>Open a Conversation</div> :
             <Chat currentChat={currentChat} setCurrentChat={setCurrentChat} />}
             </>

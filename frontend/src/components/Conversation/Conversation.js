@@ -5,7 +5,7 @@ import MyLoader from '../MyLoader';
 import { Avatar } from '@mui/material';
 import { useThemeContext } from '../../Context/ThemeContext';
 
-const Conversation = ({conversation, setCurrentChat, setSelectedPanel}) => {
+const Conversation = ({conversation, setCurrentChat, setSelectedPanel, isTablet}) => {
 
     const { user } = useUserContext()
     const { dark } = useThemeContext()
@@ -21,7 +21,6 @@ const Conversation = ({conversation, setCurrentChat, setSelectedPanel}) => {
             }
         }).then(res => res.json())
         .then(data => {
-            console.log(data)
             setMember(data)
             setLoading(false)
         })
@@ -38,7 +37,8 @@ const Conversation = ({conversation, setCurrentChat, setSelectedPanel}) => {
     }
 
     const handleConversation = () => {
-        setSelectedPanel('chat')
+        if(isTablet)
+            setSelectedPanel('chat')
         setCurrentChat({
             conversationId: conversation._id, 
             member: {id: member._id, username: member.username, profilePic: member.profilePic}

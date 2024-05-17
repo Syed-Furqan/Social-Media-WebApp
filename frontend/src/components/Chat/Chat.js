@@ -13,6 +13,7 @@ const Chat = ({currentChat, setCurrentChat}) => {
 
     const { user } = useUserContext()
     const { socket } = useSocketContext()
+
     const { dark } = useThemeContext()
     const {conversationId, member} = currentChat
     const [messageText, setMessageText] = useState('')
@@ -49,16 +50,18 @@ const Chat = ({currentChat, setCurrentChat}) => {
     }
 
     useEffect(() => {
-        socket.on("recieveMessage", data => {
-            if(data.conversationId === conversationId) {
-                console.log("Inside Me")
-                setMessages(prev => [...prev, data])
-            } 
-        })
-        return () => {
-            socket.off("recieveMessage")
+        if(socket) {
+            socket.on("recieveMessage", data => {
+                if(data.conversationId === conversationId) {
+                    console.log("Inside Me")
+                    setMessages(prev => [...prev, data])
+                } 
+            })
+            return () => {
+                socket.off("recieveMessage")
+            }
         }
-    }, [conversationId])
+    }, [conversationId, socket])
 
 
     useEffect(() => {
@@ -103,7 +106,7 @@ const Chat = ({currentChat, setCurrentChat}) => {
                 }
             </div>
             <div className={`chatInput ${dark && 'chatInputdark'}`}>
-                <InputBase endAdornment={<IconButton onClick={sendMessage} className={dark && 'sendIcondark'}><SendIcon /></IconButton>} 
+                <InputBase endAdornment={<IconButton onClick={sendMessage} className={dark ? 'sendIcondark' : ''}><SendIcon /></IconButton>} 
                     sx={{width: '100%', height: '100%', fontSize: dark ? '14px' : '18px'}} 
                     placeholder='Type a Message'
                     value={messageText}

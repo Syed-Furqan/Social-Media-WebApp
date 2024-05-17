@@ -1,11 +1,75 @@
 .conversationslist {
-    min-width: 280px;
+    min-width: 300px;
     width: 40%;
     height: 100%;
+    position: relative;
 }
 
 .conversationslistdark {
     background-color: black !important;
+}
+
+.addConvoIcon {
+    position: absolute;
+    bottom: 5px;
+    z-index: 1000;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgb(88, 152, 181);
+    border-radius: 50%;
+}
+
+.convoModal {
+    font-family: "Nunito", sans-serif;
+    padding: 15px;
+}
+
+.convoModaldark {
+    background-color: rgb(37, 37, 37);
+    color: white;
+}
+
+.convoModal .convoModalInfo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.convoModaldark {
+    background-color: rgb(37, 37, 37);
+    color: white;
+}
+
+.convofollowing {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 12px;
+    background-color: rgb(223, 236, 248);
+    border-radius: 4px;
+    color: black;
+}
+
+.convofollowingdark {
+    background-color: black;
+    color: white;
+}
+
+.convofollowing:hover {
+    cursor: pointer;
+    background-color: rgb(188, 217, 240);
+    transition: 500ms;
+}
+
+.convofollowingdark:hover {
+    background-color: rgb(71, 71, 71);
+}
+
+.convofollowing .convofollowingInfo {
+    margin-left: 10px;
 }
 
 @media (max-width: 800px) {

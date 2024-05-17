@@ -9,6 +9,7 @@ import SendIcon from '@mui/icons-material/Send';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { useUserContext } from '../../Context/UserContext';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import MessageIcon from '@mui/icons-material/Message';
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from '../../Firebase/firebaseConfig';
 import { v4 } from 'uuid'
@@ -17,6 +18,7 @@ import MyLoader from '../MyLoader';
 import Friend from '../Friend/Friend';
 import { useNavigate } from 'react-router-dom';
 import { useThemeContext } from '../../Context/ThemeContext';
+import { callPostApi } from '../../utils/callApi';
 
 const UserCard = ({ profileUser }) => {
 
@@ -142,6 +144,21 @@ const UserCard = ({ profileUser }) => {
         })
     }
 
+    const openConversation = async () => {
+        try {
+            setLoading(true)
+            const res = await callPostApi('api/conversation/', user.access_token, {userId: profileUser._id} ,'POST')
+            setLoading(false)
+            navigate('/messages', { state: {
+                conversationId: res.id, 
+                member: {id: profileUser._id, username: profileUser.username, profilePic: profileUser.profilePic}
+            }})
+        } catch (error) {
+            console.log(error)
+            setLoading(false)
+        }
+    }
+
     return (
         <Paper elevation={1} className={`usercard ${dark && 'usercarddark'}`}>
             <div className='userprofile'>
@@ -161,11 +178,16 @@ const UserCard = ({ profileUser }) => {
             </div>
             <p style={{marginBottom: '30px'}}>Honestly I am here for a good time...</p>
             {user.id !== profileUser._id &&
-            <div style={{marginBottom: '30px'}}>
-                {following ? <MyButton color='error' startIcon={<DeleteIcon />} onClick={() => takeAction('unfollow')} disabled={buttonLoading} endIcon={buttonLoading && <MyLoader size={10} />}>Remove</MyButton>
-                : 
-                <MyButton startIcon={<AddIcon />} onClick={() => takeAction('follow')} disabled={buttonLoading} endIcon={buttonLoading && <MyLoader size={10} />}>Follow</MyButton>
-                }
+            <div style={{display: 'flex', flexDirection: 'row', marginBottom: '30px'}}>
+                <div style={{marginRight: '10px'}}>
+                    {following ? <MyButton color='error' startIcon={<DeleteIcon />} onClick={() => takeAction('unfollow')} disabled={buttonLoading} endIcon={buttonLoading && <MyLoader size={10} />}>Remove</MyButton>
+                    : 
+                    <MyButton startIcon={<AddIcon />} onClick={() => takeAction('follow')} disabled={buttonLoading} endIcon={buttonLoading && <MyLoader size={10} />}>Follow</MyButton>
+                    }
+                </div>
+                <div>
+                    {following && <MyButton startIcon={<MessageIcon />} endIcon={buttonLoading && <MyLoader size={10} />} onClick={openConversation}>Message</MyButton>}
+                </div>
             </div>
             }
             <div className={`followWrapper ${dark && 'followWrapperdark'}`} onClick={() => {getFriends('followers')}}>
