@@ -181,7 +181,7 @@ router.get('/:userId/posts', async (req, res) => {
         else {
             const posts = await Promise.all(user.posts.map(postId => Post.findById(postId)))
             const userposts = []
-            res.json({userposts: userposts.concat(...posts)})
+            res.json({userposts: userposts.concat(...posts).sort((a, b) => b.createdAt - a.createdAt)})
         }
         
     } catch (error) {

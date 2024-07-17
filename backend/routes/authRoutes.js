@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const dotenv = require('dotenv')
 const transporter = require('../utils/mail')
+const NewNotifcation = require('../Models/NewNotifcation')
 
 dotenv.config()
 
@@ -48,10 +49,10 @@ router.post('/register', async (req, res) => {
             const user = await User.create({
                 username, email, password: hashedPassword
             })
-            
+            await NewNotifcation.create({userId: user.id})
             // Send Access Token
             access_token = jwt.sign(user._id.toJSON(), process.env.SECRET_KEY)
-            res.json({access_token, id: foundUser._id, name: user.username, img: foundUser.profilePic})
+            res.json({access_token, id: user._id, name: user.username, img: user.profilePic})
         }
     } catch (error) {
         console.error(error)
@@ -72,6 +73,7 @@ router.post('/oauthgoogle', async (req, res) => {
                 profilePic: picture,
                 GoogleUserId: id
             })
+            await NewNotifcation.create({userId: user.id})
             access_token = jwt.sign(user._id.toJSON(), process.env.SECRET_KEY)
             res.json({access_token, id: user._id, name: user.username, img: user.profilePic})
         } else {
@@ -100,7 +102,7 @@ router.post('/resetPassword', async (req, res) => {
         // Create Link
         const uuid = crypto.randomUUID()
         const token = jwt.sign({userId: foundUser._id, uuid}, process.env.SECRET_KEY)
-        const resetLink = `http://localhost:3000/resetPassword/${token}`
+        const resetLink = `${process.env.FRONTEND_URL}/resetPassword/${token}`
 
         // Send this link via mail
         const mailOptions = {

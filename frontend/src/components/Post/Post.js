@@ -5,11 +5,12 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/Comment';
 import MyButton from '../MyButton';
 import { useEffect, useState } from 'react';
-import MyLoader from '../MyLoader';
 import { useUserContext } from '../../Context/UserContext';
 import { useThemeContext } from '../../Context/ThemeContext';
 import { dateAgo } from '../../utils/time';
 import { useMediaQuery } from 'react-responsive';
+import { PostSkeleton } from '../Skeletons';
+
 
 const Post = ({ post }) => {
 
@@ -67,7 +68,7 @@ const Post = ({ post }) => {
 
     return (
         <>
-        {loading ? <MyLoader size={20} /> : 
+        {loading ? <PostSkeleton /> : 
         <Card className={`Post ${dark && 'Postdark'}`}>
             <CardHeader
                 avatar={
@@ -86,13 +87,14 @@ const Post = ({ post }) => {
                 subheader={<span className={`time ${dark && 'timedark'}`}>{dateAgo(Date.parse(post.createdAt))}</span>}
             />
             <div style={{padding: '0 16px'}}>
+                {post.img && 
                 <CardMedia
                     component="img"
                     height={`${isSmallDevice ? '250px' : '300px'}`}
                     image={post.img}
                     alt="Paella dish"
                     sx={{borderRadius: '4px'}}
-                />
+                />}
             </div>
             <CardContent>
                 {post.desc}
@@ -112,5 +114,7 @@ const Post = ({ post }) => {
         </>
     );
 }
+
+
 
 export default Post;

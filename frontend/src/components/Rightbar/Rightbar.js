@@ -3,10 +3,10 @@ import { useSocketContext } from '../../Context/SocketContext';
 import './Rightbar.css'
 import OnlineFriend from '../OnlineFriend/OnlineFriend';
 import { useUserContext } from '../../Context/UserContext';
-import MyLoader from '../MyLoader';
 import { useNavigate } from 'react-router-dom'
 import Mostpopular from '../MostPopular/Mostpopular';
 import { useThemeContext } from '../../Context/ThemeContext';
+import { AvatarSkeletonsOne } from '../Skeletons';
 
 const Rightbar = ({ rightbarOpen }) => {
 
@@ -50,7 +50,6 @@ const Rightbar = ({ rightbarOpen }) => {
             }
         }).then(res => res.json())
         .then(data => {
-            console.log(data)
             setMostPopular(data.popular)
             setPloading(false)
         }).catch(err => {
@@ -67,7 +66,7 @@ const Rightbar = ({ rightbarOpen }) => {
         <div className={`rightbar ${dark && 'rightbardark'} ${rightbarOpen && 'mobileRightbar'}`}>
             <div className='mostPopular'>
                 <div style={{fontWeight: 'bold', marginBottom: '20px', color: '#686868'}}>Most Popular</div>
-                {ploading ? <MyLoader /> : 
+                {ploading ? <AvatarSkeletonsOne /> : 
                 <div>
                     {mostpopular.map(popular => (
                         <Mostpopular popular={popular} key={popular._id} showpopularProfile={() => showProfile(popular._id)} />
@@ -77,7 +76,7 @@ const Rightbar = ({ rightbarOpen }) => {
             </div>
             <div className='activeFriends'>
                 <div style={{fontWeight: 'bold', marginBottom: '20px', color: '#686868'}}>Active Following</div>
-                {loading ? <MyLoader /> : 
+                {loading ? <AvatarSkeletonsOne /> : 
                 <div>
                     {followings.map(following => (
                     <OnlineFriend following={following} key={following._id} showFollowingProfile={() => showProfile(following._id)} />

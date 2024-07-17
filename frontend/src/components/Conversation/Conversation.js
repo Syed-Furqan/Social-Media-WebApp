@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import './Conversation.css';
 import { useUserContext } from '../../Context/UserContext';
-import MyLoader from '../MyLoader';
 import { Avatar } from '@mui/material';
 import { useThemeContext } from '../../Context/ThemeContext';
+import { AvatarSkeletonTwo } from '../Skeletons';
 
 const Conversation = ({conversation, setCurrentChat, setSelectedPanel, isTablet}) => {
 
@@ -47,7 +47,7 @@ const Conversation = ({conversation, setCurrentChat, setSelectedPanel, isTablet}
 
     return (
         <>
-            {loading ? <MyLoader /> : 
+            {loading ? <AvatarSkeletonTwo /> : 
             <div onClick={handleConversation} className={`conversation ${dark && 'conversationdark'}`}>
                 {member.profilePic ? <Avatar alt="Remy Sharp" src={member.profilePic} /> : 
                 <Avatar sx={{ bgcolor: 'brown' }}>{member.username[0]}</Avatar>}

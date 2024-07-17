@@ -1,0 +1,35 @@
+.notifications {
+    padding: 25px;
+    box-sizing: border-box;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.notifications .notification {
+    width: 320px;
+    height: 100px;
+    position: relative;
+    margin-bottom: 10px;
+    background: white;
+    border-radius: 4px;
+}
+
+.notifications .notification:hover {
+    cursor: pointer;
+    transition: 600ms;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.notifications .notificationdark {
+    background: black;
+    color: white;
+}
+
+.notification .notificationclosebtn {
+    position: absolute;
+    top: 10px;
+    right: 3px;
+    width: 40px;
+    height: 40px;
+    color: #ad0000;
+}

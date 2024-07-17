@@ -12,6 +12,7 @@ import NewPassword from './auth/forms/NewPassword/NewPassword';
 import Reset from './auth/forms/Reset/Reset';
 import { useUserContext } from './Context/UserContext';
 import { useThemeContext } from './Context/ThemeContext';
+import Notification from './root/pages/Notifcation/Notification';
 
 function App() {  
 
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/messages" element={<Message />} />
             <Route path='/about' element={<About />} />
+            <Route path='/notifications' element={<Notification />} />
             <Route path='/profile/:id'>
               <Route index element={<Profile />} />
               <Route path='settings' element={<p>Settings</p>}/>

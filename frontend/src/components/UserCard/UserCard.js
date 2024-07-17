@@ -19,6 +19,7 @@ import Friend from '../Friend/Friend';
 import { useNavigate } from 'react-router-dom';
 import { useThemeContext } from '../../Context/ThemeContext';
 import { callPostApi } from '../../utils/callApi';
+import { AvatarSkeletonsTwo } from '../Skeletons';
 
 const UserCard = ({ profileUser }) => {
 
@@ -150,7 +151,7 @@ const UserCard = ({ profileUser }) => {
             const res = await callPostApi('api/conversation/', user.access_token, {userId: profileUser._id} ,'POST')
             setLoading(false)
             navigate('/messages', { state: {
-                conversationId: res.id, 
+                conversationId: res._id, 
                 member: {id: profileUser._id, username: profileUser.username, profilePic: profileUser.profilePic}
             }})
         } catch (error) {
@@ -186,7 +187,7 @@ const UserCard = ({ profileUser }) => {
                     }
                 </div>
                 <div>
-                    {following && <MyButton startIcon={<MessageIcon />} endIcon={buttonLoading && <MyLoader size={10} />} onClick={openConversation}>Message</MyButton>}
+                    <MyButton startIcon={<MessageIcon />} endIcon={buttonLoading && <MyLoader size={10} />} onClick={openConversation}>Message</MyButton>
                 </div>
             </div>
             }
@@ -220,7 +221,7 @@ const UserCard = ({ profileUser }) => {
             }
             <MyModal open={openfriend} close={() => setOpenFriend(false)}>
                 <div className={`friendModal ${dark && 'friendModaldark'}`}>
-                    {loading ? <MyLoader /> :
+                    {loading ? <AvatarSkeletonsTwo /> :
                         <>
                         <div className='friendModalInfo'>
                             <div>

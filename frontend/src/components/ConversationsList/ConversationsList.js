@@ -73,6 +73,7 @@ const ConversationsList = ({setCurrentChat, setSelectedPanel, isTablet}) => {
     }
 
     return (
+        <div className='conversationlistWrapper'>
         <Paper className={`conversationslist ${dark && 'conversationslistdark'}`}>
             {loading ? <MyLoader /> :
             conversations.length === 0 ? <div>No Conversations Yet</div> : 
@@ -82,7 +83,7 @@ const ConversationsList = ({setCurrentChat, setSelectedPanel, isTablet}) => {
             }
             <div className='addConvoIcon' >
                 <IconButton onClick={addConversation}>
-                    <AddIcon sx={{color: 'white'}} />
+                    <AddIcon sx={{color: 'white', width: '32px', height: '32px'}} />
                 </IconButton>
             </div>
             <MyModal open={open} close={() => setOpen(false)}>
@@ -106,6 +107,7 @@ const ConversationsList = ({setCurrentChat, setSelectedPanel, isTablet}) => {
                 </div>
             </MyModal>
         </Paper>
+        </div>
     );
 }
 

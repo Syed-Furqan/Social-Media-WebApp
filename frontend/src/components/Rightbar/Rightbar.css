@@ -19,6 +19,8 @@
 }
 
 .rightbar .mostPopular {
+    width: 100%;
+    max-width: 320px;
     margin-bottom: 50px;
 }
 
@@ -32,6 +34,6 @@
 
 @media (max-width: 800px) {
     .rightbar {
-        width: 280px;
+        width: 300px;
     }
 }

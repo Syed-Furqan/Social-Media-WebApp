@@ -44,7 +44,6 @@ const Home = () => {
                 }
                 
             }
-            console.log(data)
             setLoading(false)
         })
         .catch(err => {

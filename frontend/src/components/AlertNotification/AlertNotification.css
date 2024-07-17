@@ -1,0 +1,26 @@
+.alertNotification {
+    width: 320px;
+    height: 100px;
+    box-sizing: border-box;
+    box-shadow: 0 3px 6px rgba(90, 182, 195, 0.16), 0 3px 6px rgba(0,0,0,0.23);
+    background: #537ea9;
+    color: white;
+    border-radius: 4px;
+}
+
+.alertNotification:hover {
+    cursor: pointer;
+}
+
+.alertNotificationWrapper {
+    position: relative;
+}
+
+.alertNotificationWrapper .notificationclosebtn {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    width: 40px;
+    height: 40px;
+    color: white;
+}

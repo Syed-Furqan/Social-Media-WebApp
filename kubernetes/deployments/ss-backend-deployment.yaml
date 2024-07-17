@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ss-backend-depl
+  labels:
+    app: ss-backend-depl
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ss-backend
+  template:
+    metadata: 
+      labels: 
+        app: ss-backend
+    spec:
+      containers:
+      - name: ss-backend-cont
+        image: sfbimmortal/sharespace-backend:1.0.0
+        ports:
+        - containerPort: 2000
+        env:
+        - name: REDIS_ENDPOINT
+          valueFrom:
+            configMapKeyRef: 
+              name: ss-backend-configmap
+              key: redis-endpoint
+        - name: REDIS_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: ss-backend-configmap
+              key: redis-port
+        - name: FRONTEND_URL
+          valueFrom:
+            configMapKeyRef: 
+              name: ss-backend-configmap
+              key: react-frontend-url
+        - name: MONGO_DB_URL
+          valueFrom:
+            secretKeyRef: 
+              name: ss-backend-secret
+              key: mongo-db-url
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef: 
+              name: ss-backend-secret
+              key: jwt-secret-key
+        - name: GOOGLE_CLIENT_ID
+          valueFrom:
+            secretKeyRef: 
+              name: ss-backend-secret
+              key: google-client-id
+        - name: GOOGLE_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef: 
+              name: ss-backend-secret
+              key: google-client-secret
+        - name: APP_PASSWORD
+          valueFrom:
+            secretKeyRef: 
+              name: ss-backend-secret
+              key: nodemailer-app-password
+        - name: EMAIL
+          valueFrom:
+            secretKeyRef: 
+              name: ss-backend-secret
+              key: nodemailer-email
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef: 
+              name: ss-backend-secret
+              key: redis-password

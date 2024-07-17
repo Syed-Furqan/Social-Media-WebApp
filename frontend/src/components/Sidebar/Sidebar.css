@@ -10,6 +10,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    min-width: 250px;
 }
 
 .sidebardark {
@@ -23,6 +24,21 @@
     font-size: 18px;
     border-radius: 4px;
     margin-bottom: 6px;
+}
+
+
+.sidebar .sidebaritem .sidebaritemnotifications {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    padding: 5px;
+    color: white;
+    background-color: red;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 18px;
+    font-size: 15px;
+    margin-left: 10px;
 }
 
 .sidebar .sidebaritem:hover {
@@ -55,10 +71,4 @@
     left: 0;
     z-index: 999;
     height: calc(100vh - 70px);
-}
-
-@media (max-width: 950px) {
-    .sidebar {
-        width: 250px;
-    }
 }

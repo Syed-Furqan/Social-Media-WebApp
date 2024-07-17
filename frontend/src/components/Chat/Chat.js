@@ -2,12 +2,13 @@ import './Chat.css'
 import { Paper, Avatar, IconButton, InputBase} from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import CloseIcon from '@mui/icons-material/Close';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useLayoutEffect } from 'react';
 import { useSocketContext } from '../../Context/SocketContext';
 import { useUserContext } from '../../Context/UserContext';
 import { useThemeContext } from '../../Context/ThemeContext';
 import MyLoader from '../MyLoader';
 import UserChat from '../UserChat/UserChat';
+import { callPostApi } from '../../utils/callApi';
 
 const Chat = ({currentChat, setCurrentChat}) => {
 
@@ -19,10 +20,11 @@ const Chat = ({currentChat, setCurrentChat}) => {
     const [messageText, setMessageText] = useState('')
     const [messages, setMessages] = useState([])
     const [loading, setLoading] = useState(true)
+    const [sendMessageLoading, setSendMessageLoading] = useState(false)
     const scrollChatRef = useRef()
 
     const sendMessage = () => {
-        setLoading(true)
+        setSendMessageLoading(true)
         const message = {
             sender: user.id,
             reciever: member.id,
@@ -40,20 +42,36 @@ const Chat = ({currentChat, setCurrentChat}) => {
         }).then(res => res.json())
         .then(data => {
             socket.emit("sendMessage", data)
-            setMessages(prev => [...prev, data])
-            setLoading(false)
+            sendNotification().then(res => {
+                socket.emit("sendNotification", res.notification)
+                setMessages(prev => [...prev, data])
+                setSendMessageLoading(false)
+            }).catch(err => {
+                console.log(err)
+                setSendMessageLoading(false)
+            })
         }).catch(err => {
             console.error(err)
-            setLoading(false)
+            setSendMessageLoading(false)
         })
         setMessageText("")
+    }
+
+    const sendNotification = () => {
+        const notification = {
+            sender: user.id,
+            reciever: member.id,
+            text: `${user.name} sent you a message`,
+            notificationType: conversationId,
+            info: messageText.length > 40 ? `${messageText.slice(0,20)}...` : messageText 
+        }
+        return callPostApi('api/notification', user.access_token, {notification}, 'POST')
     }
 
     useEffect(() => {
         if(socket) {
             socket.on("recieveMessage", data => {
                 if(data.conversationId === conversationId) {
-                    console.log("Inside Me")
                     setMessages(prev => [...prev, data])
                 } 
             })
@@ -65,6 +83,7 @@ const Chat = ({currentChat, setCurrentChat}) => {
 
 
     useEffect(() => {
+        setLoading(true)
         fetch(`${process.env.REACT_APP_BASE_URL}/api/message/${conversationId}`, {
             method: 'GET',
             headers: {
@@ -80,7 +99,7 @@ const Chat = ({currentChat, setCurrentChat}) => {
         })
     }, [conversationId])
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         scrollChatRef.current.scrollTop = scrollChatRef.current.scrollHeight
     }, [messages])
 
@@ -106,13 +125,14 @@ const Chat = ({currentChat, setCurrentChat}) => {
                 }
             </div>
             <div className={`chatInput ${dark && 'chatInputdark'}`}>
-                <InputBase endAdornment={<IconButton onClick={sendMessage} className={dark ? 'sendIcondark' : ''}><SendIcon /></IconButton>} 
+                <InputBase 
+                    endAdornment={sendMessageLoading ? <MyLoader size={15} /> : <IconButton disabled={messageText === ''} onClick={sendMessage} className={dark ? 'sendIcondark' : ''}><SendIcon/></IconButton>} 
                     sx={{width: '100%', height: '100%', fontSize: dark ? '14px' : '18px'}} 
                     placeholder='Type a Message'
                     value={messageText}
                     onChange={e => setMessageText(e.target.value)}
                     onSubmit={sendMessage}
-                    onKeyDown={e => e.key === 'Enter' && sendMessage()}
+                    onKeyDown={e => e.key === 'Enter' && messageText !== '' &&  sendMessage()}
                 />   
             </div>
         </Paper>

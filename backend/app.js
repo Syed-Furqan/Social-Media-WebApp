@@ -9,6 +9,7 @@ const userRoutes = require('./routes/userRoutes')
 const postRoutes = require('./routes/postRoutes')
 const conversationRoutes = require('./routes/conversationRoutes')
 const messageRoutes = require('./routes/messageRoutes')
+const notificationRoutes = require('./routes/notificationRoutes')
 
 dotenv.config()
 
@@ -25,7 +26,7 @@ mongoose.connect(process.env.MONGO_DB_URL)
 // Socket Server
 const io = new Server(server, {
     cors: {
-        origin: 'http://localhost:3000'
+        origins: [process.env.FRONTEND_URL, 'http://localhost:3000'] 
     }
 })
 
@@ -54,9 +55,15 @@ io.on('connection', async (socket) => {
     })
 
     // Send message to specific user.
-    socket.on('sendMessage', (data) => {
+    socket.on('sendMessage', data => {
         const recieverSID = online_users[data.reciever]
-        io.to(recieverSID).emit('recieveMessage', data)
+        if(recieverSID) io.to(recieverSID).emit('recieveMessage', data)
+    })
+
+    // Send Notification to specific user.
+    socket.on('sendNotification', data => {
+        const recieverSID = online_users[data.reciever]
+        if(recieverSID) io.to(recieverSID).emit('recieveNotification', data)
     })
 
     socket.on('disconnect', async () => {
@@ -84,8 +91,9 @@ app.use('/api/user', userRoutes)
 app.use('/api/post', postRoutes)
 app.use('/api/conversation', conversationRoutes)
 app.use('/api/message', messageRoutes)
+app.use('/api/notification', notificationRoutes)
 
 
-server.listen(process.env.PORT || 2000, () => {
-    console.log("Server has started.")
+server.listen(process.env.PORT || 2000, async () => {
+    console.log('Server has started')
 });

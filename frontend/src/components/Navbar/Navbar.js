@@ -53,9 +53,7 @@ const Navbar = ({sidebarOpen, setSidebarOpen, setRightbarOpen}) => {
   };
 
   const logout = () => {
-      
       handleCloseUserMenu()
-
       // Logout
       localStorage.removeItem('user')
       socket.disconnect()

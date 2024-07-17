@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ss-backend-svc
+spec:
+  selector: 
+    app: ss-backend
+  ports:
+  - protocol: TCP
+    port: 2000
+    targetPort: 2000

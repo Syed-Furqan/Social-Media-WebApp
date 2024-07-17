@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import MyLoader from '../../../components/MyLoader';
 import { useUserContext } from '../../../Context/UserContext';
 import UserCard from '../../../components/UserCard/UserCard';
-import CreatePost from '../../../components/CreatePost/CreatePost';
 import UserPosts from '../../../components/UserPosts/UserPosts';
 
 const Profile = () => {
@@ -24,7 +23,6 @@ const Profile = () => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data)
             setProfileUser(data)
             setLoading(false)
         }).catch(err => {
@@ -39,7 +37,6 @@ const Profile = () => {
         <div className='profile'>
             <UserCard profileUser={profileUser} />
             <div className='profilePosts'>
-                {user.id === id && <CreatePost />}
                 <UserPosts profileId={id} token={user.access_token} />
             </div>
         </div>}

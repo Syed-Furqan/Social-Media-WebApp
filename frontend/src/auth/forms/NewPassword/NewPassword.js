@@ -30,7 +30,7 @@ const NewPassword = () => {
     const { token } = useParams()
 
     useEffect(() => {
-        fetch('http://localhost:2000/api/auth/checkresetlink', {
+        fetch(`${process.env.REACT_APP_BASE_URL}/api/auth/checkresetlink`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",

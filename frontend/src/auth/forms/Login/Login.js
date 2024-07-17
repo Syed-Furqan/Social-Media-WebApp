@@ -66,7 +66,7 @@ const Login = () => {
         fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${response.access_token}`)
             .then(res => res.json())
             .then(data => {
-                fetch('http://localhost:2000/api/auth/oauthgoogle', {
+                fetch(`${process.env.REACT_APP_BASE_URL}/api/auth/oauthgoogle`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
