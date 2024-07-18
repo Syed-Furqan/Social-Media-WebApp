@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node app.js"
   },
   "author": "Syed Furqan Bukhari",
@@ -21,5 +21,8 @@
     "nodemailer": "^6.9.13",
     "redis": "^4.6.14",
     "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
