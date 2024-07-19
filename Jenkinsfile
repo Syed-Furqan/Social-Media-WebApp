@@ -1,8 +1,10 @@
 pipeline {
     agent any
+
     environment {
         TEST_VAR = credentials('test_var')
     }
+
     stages {
         stage('Checkout') {
             steps {
@@ -27,7 +29,20 @@ pipeline {
                 }
             }
         }
-        // Build Docker Images
-        // Push Docker images to Dockerhub
+        stage('Build Docker Images') {
+            steps {
+                sh 'docker build -t sfbimmortal/sharespace-frontend/1.0.1 ./frontend'
+                sh 'docker build -t sfbimmortal/sharespace-backend/1.0.1 ./backend'
+            }
+        }
+        stage('Push images to dockerhub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhubcreds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                    sh 'docker push sfbimmortal/sharespace-frontend/1.0.1'
+                    sh 'docker push sfbimmortal/sharespace-backend/1.0.1'
+                }
+            }
+        }
     }
 }
