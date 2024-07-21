@@ -82,7 +82,7 @@ pipeline {
 
         // stage('Push images to dockerhub') {
         //     steps {
-        //         withCredentials([usernamePassword(credentialsId: 'dockerhubcreds', usernameVariable: DOCKER_USERNAME, passwordVariable: DOCKER_PASSWORD)]) {
+        //         withCredentials([usernamePassword(credentialsId: 'dockerhubcreds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
         //             sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
         //             sh "docker push sfbimmortal/sharespace-frontend/${FRONTEND_IMAGE_TAG}"
         //             sh "docker push sfbimmortal/sharespace-backend/${BACKEND_IMAGE_TAG}"
@@ -98,7 +98,7 @@ pipeline {
                         sh "sed -i '' 's|image: sfbimmortal/sharespace-backend:1.0.0|image: sfbimmortal/sharespace-backend:${BACKEND_IMAGE_TAG}|' ss-backend-deployment.yaml"
 
                     }
-                    withCredentials([usernamePassword(credentialsId: 'githubcreds', usernameVariable: USERNAME, passwordVariable: PASSWORD)]) {
+                    withCredentials([usernamePassword(credentialsId: 'githubcreds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh "git config --global user.email ${USERNAME}"
                         sh "git config --global user.name ${PASSWORD}"
                         sh "git add ."
