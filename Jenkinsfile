@@ -49,8 +49,8 @@ pipeline {
         stage('Get Versions of Images') {
             steps {
                 script {
-                    curr_frontend_version = sh("cat versions.txt | grep FRONTEND | cut -d'=' -f2", returnStdout: true).trim()
-                    curr_backend_version = sh("cat versions.txt | grep BACKEND | cut -d'=' -f2", returnStdout: true).trim()
+                    curr_frontend_version = sh(script: "cat versions.txt | grep FRONTEND | cut -d'=' -f2", returnStdout: true).trim()
+                    curr_backend_version = sh(script: "cat versions.txt | grep BACKEND | cut -d'=' -f2", returnStdout: true).trim()
                     echo "${curr_frontend_version}"
                     echo "${curr_backend_version}"
                 }
