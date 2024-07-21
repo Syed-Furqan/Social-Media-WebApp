@@ -7,10 +7,6 @@ def curr_backend_version
 pipeline {
     agent any
 
-    tools {
-        nodejs 'node:21.7.3'
-    }
-
     environment {
         TEST_VAR = credentials('test_var')
     }
@@ -68,9 +64,14 @@ pipeline {
             }
         }
 
-        // stage('Update versions of images') {
-        //     echo "Updating versions of images"
-        // }
+        stage('Update versions of images') {
+            steps {
+                script {
+                    def data = "FRONTEND=${FRONTEND_IMAGE_TAG}\nBACKEND=${BACKEND_IMAGE_TAG}"
+                    writeFile('versions.txt', data)
+                }
+            }
+        }
 
         // stage('Push images to dockerhub') {
         //     steps {
