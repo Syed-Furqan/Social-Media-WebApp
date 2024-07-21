@@ -76,7 +76,7 @@ pipeline {
             steps {
                 script {
                     def data = "FRONTEND=${FRONTEND_IMAGE_TAG}\nBACKEND=${BACKEND_IMAGE_TAG}"
-                    writeFile('versions.txt', data)
+                    writeFile(file: 'versions.txt', text: data)
                     sh "git add ."
                     sh "git commit -m ''"
                     sh "git push https://github.com/Syed-Furqan/Social-Media-WebApp.git main"
