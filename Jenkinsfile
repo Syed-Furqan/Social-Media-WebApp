@@ -26,24 +26,24 @@ pipeline {
             }
         }
 
-        // stage('Run Frontend/Client tests') {
-        //     steps {
-        //         dir('./frontend') {
-        //             sh 'npm install'
-        //             sh 'npm test'
-        //         }
-        //     }
-        // }
+        stage('Run Frontend/Client tests') {
+            steps {
+                dir('./frontend') {
+                    sh 'npm install'
+                    sh 'npm test'
+                }
+            }
+        }
 
-        // stage('Run Backend tests') {
-        //     steps {
-        //         dir('./backend') {
-        //             sh 'npm install'
-        //             sh "export TEST_VAR=${TEST_VAR}"
-        //             sh 'npm test'
-        //         }
-        //     }
-        // }
+        stage('Run Backend tests') {
+            steps {
+                dir('./backend') {
+                    sh 'npm install'
+                    sh "export TEST_VAR=${TEST_VAR}"
+                    sh 'npm test'
+                }
+            }
+        }
 
         stage('Get Versions of Images') {
             steps {
@@ -65,8 +65,8 @@ pipeline {
                     echo "${FRONTEND_IMAGE_TAG}"
                     echo "${BACKEND_IMAGE_TAG}"
 
-                    // sh "docker build -t sfbimmortal/sharespace-frontend/${FRONTEND_IMAGE_TAG} ./frontend"
-                    // sh "docker build -t sfbimmortal/sharespace-backend/${BACKEND_IMAGE_TAG} ./backend"
+                    sh "docker build -t sfbimmortal/sharespace-frontend/${FRONTEND_IMAGE_TAG} ./frontend"
+                    sh "docker build -t sfbimmortal/sharespace-backend/${BACKEND_IMAGE_TAG} ./backend"
                 }
             }
         }
@@ -80,15 +80,15 @@ pipeline {
             }
         }
 
-        // stage('Push images to dockerhub') {
-        //     steps {
-        //         withCredentials([usernamePassword(credentialsId: 'dockerhubcreds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-        //             sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
-        //             sh "docker push sfbimmortal/sharespace-frontend/${FRONTEND_IMAGE_TAG}"
-        //             sh "docker push sfbimmortal/sharespace-backend/${BACKEND_IMAGE_TAG}"
-        //         }
-        //     }
-        // }
+        stage('Push images to dockerhub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhubcreds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                    sh "docker push sfbimmortal/sharespace-frontend/${FRONTEND_IMAGE_TAG}"
+                    sh "docker push sfbimmortal/sharespace-backend/${BACKEND_IMAGE_TAG}"
+                }
+            }
+        }
 
         stage('Update Kubernetes Manifests') {
             steps {
