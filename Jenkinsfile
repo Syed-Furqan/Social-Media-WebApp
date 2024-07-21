@@ -1,4 +1,4 @@
-def gv = load "script.groovy"
+def gv
 def FRONTEND_IMAGE_TAG
 def BACKEND_IMAGE_TAG
 def curr_frontend_version
@@ -16,6 +16,14 @@ pipeline {
             steps {
                 git branch: 'main', 
                     url: 'https://github.com/Syed-Furqan/Social-Media-WebApp.git'
+            }
+        }
+
+        stage('Load groovy script') {
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
             }
         }
 
