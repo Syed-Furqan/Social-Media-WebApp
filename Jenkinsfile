@@ -63,7 +63,7 @@ pipeline {
             steps {
                 script {
                     FRONTEND_IMAGE_TAG = gv.get_new_version(curr_frontend_version)
-                    BACKEND_IMAGE_TAG = gv.new_version(curr_backend_version)
+                    BACKEND_IMAGE_TAG = gv.get_new_version(curr_backend_version)
 
                     echo "${FRONTEND_IMAGE_TAG}"
                     echo "${BACKEND_IMAGE_TAG}"
