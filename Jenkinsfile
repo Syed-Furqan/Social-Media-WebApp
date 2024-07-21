@@ -14,8 +14,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', 
-                    url: 'https://github.com/Syed-Furqan/Social-Media-WebApp.git'
+                git branch: 'main', url: 'https://github.com/Syed-Furqan/Social-Media-WebApp.git'
             }
         }
 
@@ -78,7 +77,7 @@ pipeline {
                     def data = "FRONTEND=${FRONTEND_IMAGE_TAG}\nBACKEND=${BACKEND_IMAGE_TAG}"
                     writeFile(file: 'versions.txt', text: data)
                     sh "git add ."
-                    sh "git commit -m ''"
+                    sh "git commit -m 'Testing versions'"
                     sh "git push https://github.com/Syed-Furqan/Social-Media-WebApp.git main"
                 }
             }
