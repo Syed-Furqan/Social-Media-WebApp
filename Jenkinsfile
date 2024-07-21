@@ -76,9 +76,6 @@ pipeline {
                 script {
                     def data = "FRONTEND=${FRONTEND_IMAGE_TAG}\nBACKEND=${BACKEND_IMAGE_TAG}"
                     writeFile(file: 'versions.txt', text: data)
-                    sh "git add ."
-                    sh "git commit -m 'Testing versions'"
-                    sh "git push https://github.com/Syed-Furqan/Social-Media-WebApp.git main"
                 }
             }
         }
@@ -106,7 +103,7 @@ pipeline {
                         sh "git config --global user.email ${USERNAME}"
                         sh "git config --global user.name ${PASSWORD}"
                         sh "git add ."
-                        sh "git commit -m ''"
+                        sh "git commit -m 'Testing manifests'"
                         sh "git push https://github.com/Syed-Furqan/Social-Media-WebApp.git main"
                     }
                 }                
