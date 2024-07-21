@@ -8,7 +8,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs: 'node:21.7.3'
+        nodejs 'node:21.7.3'
     }
 
     environment {
