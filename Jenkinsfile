@@ -94,12 +94,11 @@ pipeline {
             steps {
                 script {
                     dir('./kubernetes/deployments') {
-                        sh "sed -i -e 's/image:.*/image:sfbimmortal/sharespace-frontend/${FRONTEND_IMAGE_TAG}' ss-frontend-deployment.yaml"
-                        sh "sed -i -e 's/image:.*/image:sfbimmortal/sharespace-frontend/${BACKEND_IMAGE_TAG}' ss-backend-deployment.yaml"
+                        sh "sed -i '' 's|image: sfbimmortal/sharespace-frontend:1.0.0|image: sfbimmortal/sharespace-frontend:${FRONTEND_IMAGE_TAG}|' ss-frontend-deployment.yaml"
+                        sh "sed -i '' 's|image: sfbimmortal/sharespace-backend:1.0.0|image: sfbimmortal/sharespace-backend:${BACKEND_IMAGE_TAG}|' ss-backend-deployment.yaml"
 
                     }
                     withCredentials([usernamePassword(credentialsId: 'githubcreds', usernameVariable: USERNAME, passwordVariable: PASSWORD)]) {
-                        echo "${USERNAME}"
                         sh "git config --global user.email ${USERNAME}"
                         sh "git config --global user.name ${PASSWORD}"
                         sh "git add ."
