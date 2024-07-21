@@ -9,6 +9,7 @@ pipeline {
 
     environment {
         TEST_VAR = credentials('test_var')
+        PATH = '/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin/node:/opt/homebrew/bin/npm'
     }
 
     stages {
@@ -23,30 +24,28 @@ pipeline {
             steps {
                 script {
                     gv = load "script.groovy"
-                    echo "${env.PATH}"
-                    echo "${TEST_VAR}"
                 }
             }
         }
 
-        // stage('Run Frontend/Client tests') {
-        //     steps {
-        //         dir('./frontend') {
-        //             sh 'npm install'
-        //             sh 'npm test'
-        //         }
-        //     }
-        // }
+        stage('Run Frontend/Client tests') {
+            steps {
+                dir('./frontend') {
+                    sh 'npm install'
+                    sh 'npm test'
+                }
+            }
+        }
 
-        // stage('Run Backend tests') {
-        //     steps {
-        //         dir('./backend') {
-        //             sh 'npm install'
-        //             sh "export TEST_VAR=${TEST_VAR}"
-        //             sh 'npm test'
-        //         }
-        //     }
-        // }
+        stage('Run Backend tests') {
+            steps {
+                dir('./backend') {
+                    sh 'npm install'
+                    sh "export TEST_VAR=${TEST_VAR}"
+                    sh 'npm test'
+                }
+            }
+        }
 
         stage('Get Versions of Images') {
             steps {
@@ -79,6 +78,9 @@ pipeline {
                 script {
                     def data = "FRONTEND=${FRONTEND_IMAGE_TAG}\nBACKEND=${BACKEND_IMAGE_TAG}"
                     writeFile('versions.txt', data)
+                    sh "git add ."
+                    sh "git commit -m ''"
+                    sh "git push https://github.com/Syed-Furqan/Social-Media-WebApp.git main"
                 }
             }
         }
