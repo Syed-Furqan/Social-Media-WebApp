@@ -8,7 +8,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs: "node:21.7.3"
+        nodejs: 'node:21.7.3'
     }
 
     environment {
@@ -18,7 +18,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Syed-Furqan/Social-Media-WebApp.git'
+                git branch: 'main', 
+                    url: 'https://github.com/Syed-Furqan/Social-Media-WebApp.git'
             }
         }
 
