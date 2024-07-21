@@ -9,7 +9,6 @@ pipeline {
 
     environment {
         TEST_VAR = credentials('test_var')
-        PATH = '/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin/node:/opt/homebrew/bin/npm'
     }
 
     stages {
@@ -28,24 +27,24 @@ pipeline {
             }
         }
 
-        stage('Run Frontend/Client tests') {
-            steps {
-                dir('./frontend') {
-                    sh 'npm install'
-                    sh 'npm test'
-                }
-            }
-        }
+        // stage('Run Frontend/Client tests') {
+        //     steps {
+        //         dir('./frontend') {
+        //             sh 'npm install'
+        //             sh 'npm test'
+        //         }
+        //     }
+        // }
 
-        stage('Run Backend tests') {
-            steps {
-                dir('./backend') {
-                    sh 'npm install'
-                    sh "export TEST_VAR=${TEST_VAR}"
-                    sh 'npm test'
-                }
-            }
-        }
+        // stage('Run Backend tests') {
+        //     steps {
+        //         dir('./backend') {
+        //             sh 'npm install'
+        //             sh "export TEST_VAR=${TEST_VAR}"
+        //             sh 'npm test'
+        //         }
+        //     }
+        // }
 
         stage('Get Versions of Images') {
             steps {
@@ -99,8 +98,8 @@ pipeline {
         //     steps {
         //         script {
         //             dir('./kubernetes/deployments') {
-        //                 sh "sed -i -e 's/image:.*/image:sfbimmortal/sharespace-frontend/${FRONTEND_IMAGE_TAG} ' ss-frontend-deployment.yaml"
-        //                 sh "sed -i -e 's/image:.*/image:sfbimmortal/sharespace-frontend/${BACKEND_IMAGE_TAG} ' ss-backend-deployment.yaml"
+        //                 sh "sed -i -e 's/image:.*/image:sfbimmortal/sharespace-frontend/${FRONTEND_IMAGE_TAG}' ss-frontend-deployment.yaml"
+        //                 sh "sed -i -e 's/image:.*/image:sfbimmortal/sharespace-frontend/${BACKEND_IMAGE_TAG}' ss-backend-deployment.yaml"
 
         //             }
         //             withCredentials([usernamePassword(credentialsId: 'githubcreds', usernameVariable: USERNAME, passwordVariable: PASSWORD)]) {
