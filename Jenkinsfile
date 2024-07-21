@@ -102,6 +102,7 @@ pipeline {
 
                     }
                     withCredentials([usernamePassword(credentialsId: 'githubcreds', usernameVariable: USERNAME, passwordVariable: PASSWORD)]) {
+                        echo "${USERNAME}"
                         sh "git config --global user.email ${USERNAME}"
                         sh "git config --global user.name ${PASSWORD}"
                         sh "git add ."
