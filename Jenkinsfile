@@ -93,23 +93,23 @@ pipeline {
         //     }
         // }
 
-        // stage('Update Kubernetes Manifests') {
-        //     steps {
-        //         script {
-        //             dir('./kubernetes/deployments') {
-        //                 sh "sed -i -e 's/image:.*/image:sfbimmortal/sharespace-frontend/${FRONTEND_IMAGE_TAG}' ss-frontend-deployment.yaml"
-        //                 sh "sed -i -e 's/image:.*/image:sfbimmortal/sharespace-frontend/${BACKEND_IMAGE_TAG}' ss-backend-deployment.yaml"
+        stage('Update Kubernetes Manifests') {
+            steps {
+                script {
+                    dir('./kubernetes/deployments') {
+                        sh "sed -i -e 's/image:.*/image:sfbimmortal/sharespace-frontend/${FRONTEND_IMAGE_TAG}' ss-frontend-deployment.yaml"
+                        sh "sed -i -e 's/image:.*/image:sfbimmortal/sharespace-frontend/${BACKEND_IMAGE_TAG}' ss-backend-deployment.yaml"
 
-        //             }
-        //             withCredentials([usernamePassword(credentialsId: 'githubcreds', usernameVariable: USERNAME, passwordVariable: PASSWORD)]) {
-        //                 sh "git config --global user.email ${USERNAME}"
-        //                 sh "git config --global user.name ${PASSWORD}"
-        //                 sh "git add ."
-        //                 sh "git commit -m ''"
-        //                 sh "git push https://github.com/Syed-Furqan/Social-Media-WebApp.git main"
-        //             }
-        //         }                
-        //     }
-        // }
+                    }
+                    withCredentials([usernamePassword(credentialsId: 'githubcreds', usernameVariable: USERNAME, passwordVariable: PASSWORD)]) {
+                        sh "git config --global user.email ${USERNAME}"
+                        sh "git config --global user.name ${PASSWORD}"
+                        sh "git add ."
+                        sh "git commit -m ''"
+                        sh "git push https://github.com/Syed-Furqan/Social-Media-WebApp.git main"
+                    }
+                }                
+            }
+        }
     }
 }
