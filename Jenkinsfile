@@ -23,6 +23,8 @@ pipeline {
             steps {
                 script {
                     gv = load "script.groovy"
+                    echo "${env.PATH}"
+                    echo "${TEST_VAR}"
                 }
             }
         }
