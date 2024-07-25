@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: ss-frontend-configmap
 data:
-  node-backend-url: http://127.0.0.1:2000
+  node-backend-url: http://sharespace.api.com
