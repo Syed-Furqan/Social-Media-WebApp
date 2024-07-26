@@ -2,14 +2,21 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ss-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - sharespace.client.com
+        - sharespace.api.com
+      secretName: ss-tls-secret
   rules:
     - host: sharespace.client.com
       http:
         paths:
-          - path: /
-            pathType: Prefix
+          - path: /.*
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: ss-frontend-svc
@@ -18,8 +25,8 @@ spec:
     - host: sharespace.api.com
       http:
         paths:
-          - path: /
-            pathType: Prefix
+          - path: /.*
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: ss-backend-svc
