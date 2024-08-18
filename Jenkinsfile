@@ -7,6 +7,10 @@ def curr_backend_version
 pipeline {
     agent any
 
+    tools {
+        nodejs '21.7.3'
+    }
+
     environment {
         TEST_VAR = credentials('test_var')
     }
